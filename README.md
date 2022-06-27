@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+A productivity timer that integrates with Github and allows you to track how much time you're spending on issues.
+
+## Techstack
+
+
+
 
 ## Getting Started
 
