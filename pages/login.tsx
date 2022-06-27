@@ -1,4 +1,5 @@
 import Container from '../components/Container';
+import UserProfile from '../components/UserProfile';
 import { useUserContext } from '../context/UserContext';
 import { Component } from '../types/Utility';
 
@@ -16,7 +17,10 @@ const Login: Component = () => {
             {userContext.loading ? (
                 <h4>Loading...</h4>
             ) : userContext.user ? (
-                <div>Welcome {userContext.user.displayName}!</div>
+                <div>
+                    <div>Welcome {userContext.user.displayName}!</div>
+                    <UserProfile user={userContext.user} />
+                </div>
             ) : (
                 <div>
                     <div>Can you login please</div>
