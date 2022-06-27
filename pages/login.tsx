@@ -1,4 +1,4 @@
-import Container from '../components/Container';
+import Container from '../components/Utility/Container';
 import UserProfile from '../components/UserProfile';
 import { useUserContext } from '../context/UserContext';
 import { Component } from '../types/Utility';

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import Container from '../components/Container';
+import Container from '../components/Utility/Container';
 import { useUserContext } from '../context/UserContext';
 
 const Home: NextPage = () => {
