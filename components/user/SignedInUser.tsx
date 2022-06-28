@@ -4,7 +4,7 @@ import { forwardRef, MutableRefObject } from 'react';
 import { useUserContext } from '../../login/UserContext';
 import { ForwardRefComponent } from '../../types/Utility';
 import OutlinedButton from '../buttons/OutlinedButton';
-import Card from '../utility/Card';
+import Card from '../cards/Card';
 import Stack from '../utility/Stack';
 import ProfilePicture from './ProfilePicture';
 
