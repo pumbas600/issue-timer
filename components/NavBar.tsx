@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
@@ -9,14 +10,22 @@ import Container from './utility/Container';
 
 const NavBar: Component = () => {
     const userContext = useUserContext();
+    const router = useRouter();
     const [showProfile, setShowProfile] = useState(false);
     const profileRef = useRef<HTMLDivElement | null>(null);
+
+    function logOut() {
+        userContext.logoutUser().then(() => {
+            router.push({ pathname: '/login' });
+        });
+        setShowProfile(false);
+    }
 
     return (
         <div className="border-b border-secondary py-2 mb-5">
             <Container>
-                <div className="flex justify-end">
-                    {userContext.user ? (
+                <div className="flex justify-end h-11">
+                    {userContext.user && (
                         <div>
                             <SignedInUser
                                 ref={profileRef}
@@ -28,13 +37,15 @@ const NavBar: Component = () => {
                             {showProfile && (
                                 <OutsideClickHandler onClickOutside={() => setShowProfile(false)} ignore={[profileRef]}>
                                     <div className="flex justify-end">
-                                        <UserProfile onClose={() => setShowProfile(false)} user={userContext.user} />
+                                        <UserProfile
+                                            user={userContext.user}
+                                            onClose={() => setShowProfile(false)}
+                                            logOut={logOut}
+                                        />
                                     </div>
                                 </OutsideClickHandler>
                             )}
                         </div>
-                    ) : (
-                        <button>Sign in</button>
                     )}
                 </div>
             </Container>

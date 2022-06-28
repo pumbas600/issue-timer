@@ -1,9 +1,10 @@
 import { User } from 'firebase/auth';
 import Image from 'next/image';
 import { forwardRef, MutableRefObject } from 'react';
+import { ClassName } from '../../types/Props';
 import { ForwardRefComponent } from '../../types/Utility';
 
-interface Props {
+interface Props extends ClassName {
     user: User;
     onClick?: VoidFunction;
     width: string | number;
@@ -16,7 +17,9 @@ const ProfilePicture: ForwardRefComponent<HTMLDivElement, Props> = (props, ref) 
     return (
         <div
             ref={ref}
-            className="inline-flex items-center p-0.5 rounded-full border-2 bg-primary border-blue-500 hover:border-blue-400"
+            className={`inline-flex items-center p-0.5 rounded-full border-2 bg-primary border-highlight ${
+                props.className ?? ''
+            }`}
         >
             <Image
                 onClick={props.onClick}

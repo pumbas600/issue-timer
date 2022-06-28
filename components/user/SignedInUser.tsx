@@ -14,12 +14,13 @@ interface Props {
 
 const SignedInUser: ForwardRefComponent<HTMLDivElement, Props> = (props, profileRef) => {
     return (
-        <Stack className="gap-x-2" orientation="row">
+        <Stack className="gap-x-2 select-none" orientation="row">
             <Stack className="text-right">
                 <p className="leading-4">Signed in as</p>
                 <div className="font-bold leading-4">{props.user.displayName}</div>
             </Stack>
             <ProfilePicture
+                className="border-highlight-hover"
                 ref={profileRef}
                 user={props.user}
                 onClick={props.onClickProfile}
