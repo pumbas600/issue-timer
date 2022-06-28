@@ -10,14 +10,14 @@ interface Props {
 
 const UserProfile: Component<Props> = (props) => {
     return (
-        <Card>
-            <Stack orientation="row">
-                <Stack>
-                    <p>Signed in as</p>
-                    <h2>{props.user.displayName}</h2>
+        <Card className="w-fit">
+            <Stack className="gap-x-3" orientation="row">
+                <Stack className="text-right">
+                    <p className="leading-5">Signed in as</p>
+                    <h5 className="leading-5">{props.user.displayName}</h5>
                 </Stack>
                 {props.user.photoURL && (
-                    <div className="flex items-center p-0.5 rounded-full border-2 border-primary w-fit h-fit">
+                    <div className="flex items-center p-0.5 rounded-full border-2 border-blue-500 hover:border-blue-400 w-fit h-fit">
                         <Image
                             className="rounded-full"
                             alt={`${props.user.displayName}'s profile picture`}

@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+    @apply text-9xl text-black font-bold;
+}
+
+h2 {
+    @apply text-7xl text-black font-bold;
+}
+
+h3 {
+    @apply text-4xl text-black font-semibold;
+}
+
+h4 {
+    @apply text-2xl text-black font-semibold;
+}
+
+h5 {
+    @apply text-xl text-black font-semibold;
+}
+
+h6 {
+    @apply text-lg text-black;
+}
+
+p {
+    @apply text-base text-black;
+}
+
 .border-primary {
     @apply border-blue-500;
 }
