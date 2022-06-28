@@ -1,6 +1,6 @@
-import Container from '../components/Utility/Container';
-import UserProfile from '../components/UserProfile';
-import { useUserContext } from '../LoginIntegration/UserContext';
+import Container from '../components/utility/Container';
+import SignedInUser from '../components/user/SignedInUser';
+import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -35,7 +35,7 @@ const Login: Component = () => {
             ) : userContext.user ? (
                 <div>
                     <div>Welcome {userContext.user.displayName}!</div>
-                    <UserProfile user={userContext.user} />
+                    <SignedInUser user={userContext.user} />
                 </div>
             ) : (
                 <div>

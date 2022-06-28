@@ -26,12 +26,40 @@ h6 {
     @apply text-lg text-black;
 }
 
-p {
+div {
     @apply text-base text-black;
 }
 
-.border-primary {
+p {
+    @apply text-sm text-black;
+}
+
+.border-highlight {
     @apply border-blue-500;
+}
+
+.border-secondary {
+    @apply border-gray-300;
+}
+
+.bg-highlight {
+    @apply bg-blue-500;
+}
+
+.bg-primary {
+    @apply bg-white;
+}
+
+.bg-secondary {
+    @apply bg-gray-300;
+}
+
+.text-highlight {
+    @apply text-white;
+}
+
+.fit {
+    @apply w-fit h-fit;
 }
 
 html,

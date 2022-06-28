@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import UserProfile from '../components/UserProfile';
-import Container from '../components/Utility/Container';
-import { useUserContext } from '../LoginIntegration/UserContext';
+import SignedInUser from '../components/user/SignedInUser';
+import Container from '../components/utility/Container';
+import { useUserContext } from '../login/UserContext';
 
 const Home: NextPage = () => {
     const userContext = useUserContext();
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
     return (
         <Container>
-            {userContext.user ? <UserProfile user={userContext.user} /> : <p>Youre not logged in!</p>}
+            {userContext.user ? <SignedInUser user={userContext.user} /> : <p>Youre not logged in!</p>}
 
             <button onClick={logout}>Logout</button>
         </Container>

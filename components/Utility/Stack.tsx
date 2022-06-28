@@ -1,7 +1,7 @@
-import { ClassNames } from '../../types/Props';
+import { ClassName } from '../../types/Props';
 import { Component } from '../../types/Utility';
 
-interface Props extends ClassNames {
+interface Props extends ClassName {
     orientation?: 'col' | 'row';
 }
 
