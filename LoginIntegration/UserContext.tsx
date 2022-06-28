@@ -1,13 +1,13 @@
-import { createContext, Context, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { Component } from '../types/Utility';
 import { onAuthStateChanged, User, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
-import { Auth } from '../firebase/FirebaseApp';
+import { Auth } from '../pages/api/firebase/FirebaseApp';
 
-interface UserContextProps {
+export interface UserContextProps {
     user: User | null;
     loading: boolean;
     error: string;
-    logoutUser: VoidFunction;
+    logoutUser: () => Promise<void>;
     signInWithGithub: VoidFunction;
 }
 
@@ -15,7 +15,7 @@ const UserContext = createContext<UserContextProps>({
     user: null,
     loading: false,
     error: '',
-    logoutUser: () => {},
+    logoutUser: async () => {},
     signInWithGithub: () => {},
 });
 
@@ -52,8 +52,8 @@ export const UserContextProvider: Component = (props) => {
         }
     }
 
-    function logoutUser() {
-        signOut(Auth);
+    function logoutUser(): Promise<void> {
+        return signOut(Auth);
     }
 
     const contextValue: UserContextProps = {
