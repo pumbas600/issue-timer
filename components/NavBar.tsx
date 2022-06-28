@@ -27,7 +27,9 @@ const NavBar: Component = () => {
                             />
                             {showProfile && (
                                 <OutsideClickHandler onClickOutside={() => setShowProfile(false)} ignore={[profileRef]}>
-                                    <UserProfile user={userContext.user} />
+                                    <div className="flex justify-end">
+                                        <UserProfile onClose={() => setShowProfile(false)} user={userContext.user} />
+                                    </div>
                                 </OutsideClickHandler>
                             )}
                         </div>

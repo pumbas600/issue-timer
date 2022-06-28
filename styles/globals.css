@@ -58,6 +58,10 @@ p {
     @apply text-white;
 }
 
+.text-highlight-hover {
+    @apply hover:text-gray-300;
+}
+
 .fit {
     @apply w-fit h-fit;
 }
