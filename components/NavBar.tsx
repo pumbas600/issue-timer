@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
+import OutsideClickHandler from './functional/OutsideClickHandler';
 import SignedInUser from './user/SignedInUser';
 import UserProfile from './user/UserProfile';
 import Container from './utility/Container';
@@ -16,7 +17,11 @@ const NavBar: Component = () => {
                     {userContext.user ? (
                         <div>
                             <SignedInUser user={userContext.user} onClickProfile={() => setShowProfile(true)} />
-                            {showProfile && <UserProfile user={userContext.user} />}
+                            {showProfile && (
+                                <OutsideClickHandler onClickOutside={() => setShowProfile(false)}>
+                                    <UserProfile user={userContext.user} />
+                                </OutsideClickHandler>
+                            )}
                         </div>
                     ) : (
                         <button>Sign in</button>
