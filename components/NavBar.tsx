@@ -14,7 +14,7 @@ const NavBar: Component = () => {
     const [showProfile, setShowProfile] = useState(false);
     const profileRef = useRef<HTMLDivElement | null>(null);
 
-    function logOut() {
+    function signOut() {
         userContext.logoutUser().then(() => {
             router.push({ pathname: '/login' });
         });
@@ -40,7 +40,7 @@ const NavBar: Component = () => {
                                         <UserProfile
                                             user={userContext.user}
                                             onClose={() => setShowProfile(false)}
-                                            logOut={logOut}
+                                            signOut={signOut}
                                         />
                                     </div>
                                 </OutsideClickHandler>

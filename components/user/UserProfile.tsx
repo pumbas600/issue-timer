@@ -11,7 +11,7 @@ import OutlinedButton from '../buttons/OutlinedButton';
 interface Props {
     user: User;
     onClose: VoidFunction;
-    logOut: VoidFunction;
+    signOut: VoidFunction;
 }
 
 const UserProfile: Component<Props> = (props) => {
@@ -33,10 +33,10 @@ const UserProfile: Component<Props> = (props) => {
             noHeaderBottomPadding
             className="w-[250px] absolute top-[70px] select-none"
         >
-            <Stack className="mt-6 align-center gap-y-2">
+            <Stack className="mt-6 items-center gap-y-2">
                 <p>{props.user.email}</p>
-                <OutlinedButton variant="danger" onClick={props.logOut}>
-                    Log out
+                <OutlinedButton className="w-full" variant="danger" onClick={props.signOut}>
+                    Sign out
                 </OutlinedButton>
             </Stack>
         </Card>
