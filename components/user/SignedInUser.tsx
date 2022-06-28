@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { forwardRef, MutableRefObject } from 'react';
 import { useUserContext } from '../../login/UserContext';
 import { ForwardRefComponent } from '../../types/Utility';
+import OutlinedButton from '../buttons/OutlinedButton';
 import Card from '../utility/Card';
 import Stack from '../utility/Stack';
 import ProfilePicture from './ProfilePicture';
@@ -19,14 +20,9 @@ const SignedInUser: ForwardRefComponent<HTMLDivElement, Props> = (props, profile
                 <p className="leading-4">Signed in as</p>
                 <div className="font-bold leading-4">{props.user.displayName}</div>
             </Stack>
-            <ProfilePicture
-                className="border-highlight-hover"
-                ref={profileRef}
-                user={props.user}
-                onClick={props.onClickProfile}
-                width="35px"
-                height="35px"
-            />
+            <OutlinedButton onClick={props.onClickProfile} className="flex px-0 py-0 border-2 rounded-full">
+                <ProfilePicture ref={profileRef} className="p-0.5" user={props.user} width="35px" height="35px" />
+            </OutlinedButton>
         </Stack>
     );
 };

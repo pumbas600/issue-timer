@@ -25,7 +25,12 @@ const UserProfile: Component<Props> = (props) => {
                         <IconButton icon={faXmark} onClick={props.onClose} />
                     </div>
                     <div className="relative -bottom-8 -mt-7">
-                        <ProfilePicture user={props.user} width="64px" height="64px" />
+                        <ProfilePicture
+                            className="p-0.5 border-2 bg-primary border-highlight"
+                            user={props.user}
+                            width="64px"
+                            height="64px"
+                        />
                     </div>
                 </Stack>
             }
