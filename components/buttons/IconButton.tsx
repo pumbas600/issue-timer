@@ -12,7 +12,9 @@ const IconButton: Component<Props> = (props) => {
     return (
         <button
             onClick={props.onClick}
-            className={`text-2xl text-highlight text-highlight-hover rounded-full ${props.className ?? ''}`}
+            className={`flex items-center justify-center text-2xl w-8 h-8 text-highlight transition-colors duration-300 bg-gray-500 bg-opacity-0 hover:bg-opacity-40 rounded-full ${
+                props.className ?? ''
+            }`}
         >
             <FontAwesomeIcon icon={props.icon} />
         </button>
