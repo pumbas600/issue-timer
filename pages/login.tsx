@@ -4,10 +4,19 @@ import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Card from '../components/cards/Card';
+import CardSection from '../components/cards/CardSection';
+import Button from '../components/buttons/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 const Login: Component = () => {
     const router = useRouter();
     const userContext = useUserContext();
+
+    function setError(err: string) {
+        userContext.error = err;
+    }
 
     useEffect(() => {
         if (userContext.user) {
@@ -24,6 +33,24 @@ const Login: Component = () => {
 
     return (
         <Container>
+            <Card className="mx-auto w-1/2">
+                <CardSection top className="bg-highlight">
+                    <h3 className="text-highlight my-2">Login</h3>
+                </CardSection>
+                {userContext.error && <div className="text-red-500">{userContext.error}</div>}
+                <div className="my-5">
+                    <Button
+                        variant="secondary"
+                        className="w-full py-2.5"
+                        onClick={signInWithGithub}
+                        disabled={userContext.error.length !== 0}
+                    >
+                        <FontAwesomeIcon icon={faGithub} size="lg" className="mr-2" />
+                        Continue with Github
+                    </Button>
+                </div>
+            </Card>
+
             {userContext.error && (
                 <div>
                     <h4>There was an error while loggin in D:</h4>
@@ -38,10 +65,7 @@ const Login: Component = () => {
                     <SignedInUser user={userContext.user} />
                 </div>
             ) : (
-                <div>
-                    <div>Can you login please</div>
-                    <button onClick={signInWithGithub}>Continue with Github</button>
-                </div>
+                <div></div>
             )}
         </Container>
     );

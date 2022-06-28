@@ -17,8 +17,8 @@ interface Props {
 
 const UserProfile: Component<Props> = (props) => {
     return (
-        <Card headerBg="bg-highlight" noHeaderBottomPadding className="absolute min-w-[300px] top-[70px] select-none">
-            <CardSection className="bg-highlight" marginTop>
+        <Card className="absolute min-w-[300px] top-[70px] select-none">
+            <CardSection className="bg-highlight" top paddingBottom={false}>
                 <Stack className="items-center">
                     <div className="flex items-center justify-between w-full">
                         <div className="w-8" />

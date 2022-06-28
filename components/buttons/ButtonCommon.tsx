@@ -11,6 +11,7 @@ export interface Styles {
 
 export interface ButtonProps extends ClassName {
     variant?: Variant;
+    disabled?: boolean;
     onClick?: VoidFunction;
     children?: ReactNode;
 }
@@ -43,6 +44,7 @@ export function createButton(props: ButtonProps, buttonStyler: (styles: Styles) 
     return (
         <button
             onClick={props.onClick}
+            disabled={props.disabled}
             className={`text-lg font-semibold px-7 py-0.5 rounded-lg ${props.className ?? ''} ${buttonStyler(styles)}`}
         >
             {props.children}

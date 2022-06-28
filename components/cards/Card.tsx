@@ -2,11 +2,7 @@ import { ReactNode } from 'react';
 import { ClassName } from '../../types/Props';
 import { Component } from '../../types/Utility';
 
-interface Props extends ClassName {
-    header?: ReactNode;
-    headerBg?: string;
-    noHeaderBottomPadding?: boolean;
-}
+interface Props extends ClassName {}
 
 const Card: Component<Props> = (props) => {
     return (
