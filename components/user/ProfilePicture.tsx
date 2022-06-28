@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth';
 import Image from 'next/image';
+import { forwardRef, MutableRefObject } from 'react';
 import { Component } from '../../types/Utility';
 
 interface Props {
@@ -9,11 +10,14 @@ interface Props {
     height: string | number;
 }
 
-const ProfilePicture: Component<Props> = (props) => {
+const ProfilePicture = forwardRef<HTMLDivElement | null, Props>(function ProfilePicture(props, ref) {
     if (!props.user.photoURL) return <></>;
 
     return (
-        <div className="inline-flex items-center p-0.5 rounded-full border-2 bg-primary border-blue-500 hover:border-blue-400">
+        <div
+            ref={ref}
+            className="inline-flex items-center p-0.5 rounded-full border-2 bg-primary border-blue-500 hover:border-blue-400"
+        >
             <Image
                 onClick={props.onClick}
                 className="rounded-full"
@@ -24,6 +28,6 @@ const ProfilePicture: Component<Props> = (props) => {
             />
         </div>
     );
-};
+});
 
 export default ProfilePicture;

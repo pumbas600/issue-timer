@@ -22,7 +22,7 @@ const UserProfile: Component<Props> = (props) => {
             }
             headerBg="bg-highlight"
             noHeaderBottomPadding
-            className="relative"
+            className="w-[250px] fixed top-[70px] right-4"
         >
             <Stack className="mt-6">
                 <p>{props.user.email}</p>

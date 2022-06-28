@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { ForwardedRef, MutableRefObject, useEffect, useRef } from 'react';
 import { Component } from '../../types/Utility';
 
 interface Props {
     onClickOutside: VoidFunction;
+    ignore?: MutableRefObject<null | HTMLDivElement>[];
 }
 
 const OutsideClickHandler: Component<Props> = (props) => {
@@ -10,7 +11,12 @@ const OutsideClickHandler: Component<Props> = (props) => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
+            const target = event.target as Node;
+            if (
+                ref.current &&
+                !ref.current?.contains(target) &&
+                !props.ignore?.some((ref) => ref?.current?.contains(target))
+            ) {
                 props.onClickOutside();
             }
         };
@@ -18,8 +24,7 @@ const OutsideClickHandler: Component<Props> = (props) => {
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.onClickOutside]);
+    }, [props]);
 
     return <div ref={ref}>{props.children}</div>;
 };

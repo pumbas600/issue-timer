@@ -1,5 +1,6 @@
 import { User } from 'firebase/auth';
 import Image from 'next/image';
+import { forwardRef, MutableRefObject } from 'react';
 import { useUserContext } from '../../login/UserContext';
 import { Component } from '../../types/Utility';
 import Card from '../utility/Card';
@@ -11,16 +12,22 @@ interface Props {
     onClickProfile?: VoidFunction;
 }
 
-const SignedInUser: Component<Props> = (props) => {
+const SignedInUser = forwardRef<HTMLDivElement | null, Props>(function SignedInUser(props, profileRef) {
     return (
         <Stack className="gap-x-2" orientation="row">
             <Stack className="text-right">
                 <p className="leading-4">Signed in as</p>
                 <div className="font-bold leading-4">{props.user.displayName}</div>
             </Stack>
-            <ProfilePicture user={props.user} onClick={props.onClickProfile} width="35px" height="35px" />
+            <ProfilePicture
+                ref={profileRef}
+                user={props.user}
+                onClick={props.onClickProfile}
+                width="35px"
+                height="35px"
+            />
         </Stack>
     );
-};
+});
 
 export default SignedInUser;
