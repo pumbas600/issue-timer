@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth';
 import Image from 'next/image';
 import { forwardRef, MutableRefObject } from 'react';
-import { Component } from '../../types/Utility';
+import { ForwardRefComponent } from '../../types/Utility';
 
 interface Props {
     user: User;
@@ -10,7 +10,7 @@ interface Props {
     height: string | number;
 }
 
-const ProfilePicture = forwardRef<HTMLDivElement | null, Props>(function ProfilePicture(props, ref) {
+const ProfilePicture: ForwardRefComponent<HTMLDivElement, Props> = (props, ref) => {
     if (!props.user.photoURL) return <></>;
 
     return (
@@ -28,6 +28,6 @@ const ProfilePicture = forwardRef<HTMLDivElement | null, Props>(function Profile
             />
         </div>
     );
-});
+};
 
-export default ProfilePicture;
+export default forwardRef(ProfilePicture);

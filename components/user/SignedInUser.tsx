@@ -2,7 +2,7 @@ import { User } from 'firebase/auth';
 import Image from 'next/image';
 import { forwardRef, MutableRefObject } from 'react';
 import { useUserContext } from '../../login/UserContext';
-import { Component } from '../../types/Utility';
+import { ForwardRefComponent } from '../../types/Utility';
 import Card from '../utility/Card';
 import Stack from '../utility/Stack';
 import ProfilePicture from './ProfilePicture';
@@ -12,7 +12,7 @@ interface Props {
     onClickProfile?: VoidFunction;
 }
 
-const SignedInUser = forwardRef<HTMLDivElement | null, Props>(function SignedInUser(props, profileRef) {
+const SignedInUser: ForwardRefComponent<HTMLDivElement, Props> = (props, profileRef) => {
     return (
         <Stack className="gap-x-2" orientation="row">
             <Stack className="text-right">
@@ -28,6 +28,6 @@ const SignedInUser = forwardRef<HTMLDivElement | null, Props>(function SignedInU
             />
         </Stack>
     );
-});
+};
 
-export default SignedInUser;
+export default forwardRef(SignedInUser);
