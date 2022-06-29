@@ -40,7 +40,7 @@ const UserProfile: Component<Props> = (props) => {
             </CardSection>
             <Stack className="mt-10 gap-y-2">
                 <Label label={<div className="font-semibold">Private repositories</div>}>
-                    <Checkbox checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'} />
+                    <Checkbox readonly checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'} />
                 </Label>
                 <CardSeparator />
                 <OutlinedButton

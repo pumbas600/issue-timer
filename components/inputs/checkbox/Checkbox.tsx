@@ -8,6 +8,7 @@ export interface CheckboxProps extends ClassName {
     checked?: boolean;
     onClicked?: (checked: boolean) => void;
     ring?: boolean;
+    readonly?: boolean;
 }
 
 const Checkbox: Component<CheckboxProps> = (props) => {
@@ -21,6 +22,7 @@ const Checkbox: Component<CheckboxProps> = (props) => {
                 props.className ?? ''
             }`}
             onClick={() => {
+                if (props.readonly) return;
                 if (props.onClicked) props.onClicked(!checked);
                 setChecked((checked) => !checked);
             }}
