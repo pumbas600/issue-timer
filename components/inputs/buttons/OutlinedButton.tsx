@@ -1,5 +1,5 @@
-import { Styles } from '../../styles/Styles';
-import { Component } from '../../types/Utility';
+import { Styles } from '../../../styles/Styles';
+import { Component } from '../../../types/Utility';
 import { ButtonProps, createButton } from './ButtonCommon';
 
 const OutlinedButton: Component<ButtonProps> = (props) => {
