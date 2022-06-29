@@ -30,6 +30,10 @@
     p {
         @apply text-base;
     }
+
+    hr {
+        @apply border-gray-300;
+    }
 }
 
 @layer components {

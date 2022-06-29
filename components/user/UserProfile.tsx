@@ -7,6 +7,10 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../inputs/buttons/IconButton';
 import OutlinedButton from '../inputs/buttons/OutlinedButton';
 import CardSection from '../cards/CardSection';
+import Label from '../inputs/Label';
+import Checkbox from '../inputs/checkbox/Checkbox';
+import { ALLOW_PRIVATE_REPOS } from '../../login/UserContext';
+import CardSeparator from '../cards/CardSeparator';
 
 interface Props {
     user: User;
@@ -34,8 +38,11 @@ const UserProfile: Component<Props> = (props) => {
                     </div>
                 </Stack>
             </CardSection>
-            <Stack className="mt-10 items-center gap-y-2">
-                <p>{props.user.email}</p>
+            <Stack className="mt-10 gap-y-2">
+                <Label label={<div className="font-semibold">Private repositories</div>}>
+                    <Checkbox checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'} />
+                </Label>
+                <CardSeparator />
                 <OutlinedButton
                     className="w-full text-red-500 hover:text-red-600 border-red-500 hover:border-red-600 bg-red-500"
                     onClick={props.signOut}
