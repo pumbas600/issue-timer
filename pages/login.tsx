@@ -1,16 +1,17 @@
 import Container from '../components/utility/Container';
-import SignedInUser from '../components/user/SignedInUser';
-import { useUserContext } from '../login/UserContext';
+import { ALLOW_PRIVATE_REPOS, useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Card from '../components/cards/Card';
-import Button from '../components/buttons/Button';
+import Button from '../components/inputs/buttons/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { Styles } from '../styles/Styles';
-import { faCircleNotch, faWarning } from '@fortawesome/free-solid-svg-icons';
+import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import Stack from '../components/utility/Stack';
+import Checkbox from '../components/inputs/checkbox/Checkbox';
+import Label from '../components/inputs/Label';
 
 const Login: Component = () => {
     const router = useRouter();
@@ -27,6 +28,11 @@ const Login: Component = () => {
 
     function signInWithGithub() {
         userContext.signInWithGithub();
+    }
+
+    function allowPrivateRepos(allowed: boolean) {
+        if (allowed) localStorage.setItem(ALLOW_PRIVATE_REPOS, 'true');
+        else localStorage.removeItem(ALLOW_PRIVATE_REPOS);
     }
 
     function loadingIcon(): JSX.Element {
@@ -81,6 +87,15 @@ const Login: Component = () => {
                                 </div>
                             </div>
                         )}
+                        <div>
+                            <Label label={<div className="font-semibold">Allow access to private repos</div>}>
+                                <Checkbox
+                                    ring
+                                    onClicked={allowPrivateRepos}
+                                    checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'}
+                                />
+                            </Label>
+                        </div>
                         {renderState()}
                     </Stack>
                 </Card>

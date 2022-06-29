@@ -4,9 +4,9 @@ import Card from '../cards/Card';
 import Stack from '../utility/Stack';
 import ProfilePicture from './ProfilePicture';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import IconButton from '../buttons/IconButton';
-import OutlinedButton from '../buttons/OutlinedButton';
-import Button from '../buttons/Button';
+import IconButton from '../inputs/buttons/IconButton';
+import OutlinedButton from '../inputs/buttons/OutlinedButton';
+import Button from '../inputs/buttons/Button';
 import CardSection from '../cards/CardSection';
 
 interface Props {

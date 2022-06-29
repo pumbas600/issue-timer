@@ -23,6 +23,8 @@ const UserContext = createContext<UserContextProps>({
 
 export const useUserContext = () => useContext(UserContext);
 
+export const ALLOW_PRIVATE_REPOS = 'private_repos';
+
 export const UserContextProvider: Component = (props) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
@@ -44,7 +46,16 @@ export const UserContextProvider: Component = (props) => {
         setLoading(true);
         try {
             const provider = new GithubAuthProvider();
-            //provider.addScope('');
+            provider.addScope('read:user');
+
+            // The repo scope is the only way to get issues in private repositories,
+            // but it also gives access to sensitive information like the codebase so only use this if specified.
+            if (localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true') {
+                provider.addScope('repo');
+            } else {
+                provider.addScope('public_repo');
+            }
+
             const res = await signInWithPopup(Auth, provider);
             const credential = GithubAuthProvider.credentialFromResult(res);
             if (credential) {

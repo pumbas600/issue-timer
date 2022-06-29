@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { merge, Styles, Variant } from '../../styles/Styles';
-import { ClassName } from '../../types/Props';
+import { merge, Styles, Variant } from '../../../styles/Styles';
+import { ClassName } from '../../../types/Props';
 
 export interface ButtonProps extends ClassName {
     variant?: Variant;

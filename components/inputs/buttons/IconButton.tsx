@@ -1,8 +1,8 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { merge, Styles } from '../../styles/Styles';
-import { ClassName } from '../../types/Props';
-import { Component } from '../../types/Utility';
+import { merge, Styles } from '../../../styles/Styles';
+import { ClassName } from '../../../types/Props';
+import { Component } from '../../../types/Utility';
 
 interface Props extends ClassName {
     icon: IconProp;
