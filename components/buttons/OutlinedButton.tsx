@@ -7,7 +7,7 @@ const OutlinedButton: Component<ButtonProps> = (props) => {
         return `${styles.text.default} hover:${styles.text.dark} ${styles.border.default} hover:${styles.border.dark}`;
     }
 
-    return createButton(props, buttonStyler, 'border');
+    return createButton(props, buttonStyler, 'border bg-opacity-0 hover:bg-opacity-10 transition-colors duration-300');
 };
 
 export default OutlinedButton;

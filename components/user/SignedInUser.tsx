@@ -20,7 +20,10 @@ const SignedInUser: ForwardRefComponent<HTMLDivElement, Props> = (props, profile
                 <p className="leading-4">Signed in as</p>
                 <div className="font-bold leading-4">{props.user.displayName}</div>
             </Stack>
-            <OutlinedButton onClick={props.onClickProfile} className="flex px-0 py-0 border-2 rounded-full">
+            <OutlinedButton
+                onClick={props.onClickProfile}
+                className="flex px-0 py-0 border-2 rounded-full border-blue-500 hover:border-blue-600"
+            >
                 <ProfilePicture ref={profileRef} className="p-0.5" user={props.user} width="35px" height="35px" />
             </OutlinedButton>
         </Stack>

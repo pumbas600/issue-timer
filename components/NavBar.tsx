@@ -6,6 +6,7 @@ import OutsideClickHandler from './functional/OutsideClickHandler';
 import SignedInUser from './user/SignedInUser';
 import UserProfile from './user/UserProfile';
 import Container from './utility/Container';
+import Stack from './utility/Stack';
 
 const NavBar: Component = () => {
     const userContext = useUserContext();
@@ -25,26 +26,32 @@ const NavBar: Component = () => {
             {userContext.user && (
                 <div className="border-b border-secondary py-2 mb-5">
                     <Container>
-                        <div className="flex justify-end h-11">
-                            <SignedInUser
-                                ref={profileRef}
-                                user={userContext.user}
-                                onClickProfile={() => {
-                                    setShowProfile((showProfile) => !showProfile);
-                                }}
-                            />
-                            {showProfile && (
-                                <OutsideClickHandler onClickOutside={() => setShowProfile(false)} ignore={[profileRef]}>
-                                    <div className="flex justify-end">
-                                        <UserProfile
-                                            user={userContext.user}
-                                            onClose={() => setShowProfile(false)}
-                                            signOut={signOut}
-                                        />
-                                    </div>
-                                </OutsideClickHandler>
-                            )}
-                        </div>
+                        <Stack orientation="row" className="justify-between">
+                            <h3 className="text-blue-500">Issue Tracker</h3>
+                            <div>
+                                <SignedInUser
+                                    ref={profileRef}
+                                    user={userContext.user}
+                                    onClickProfile={() => {
+                                        setShowProfile((showProfile) => !showProfile);
+                                    }}
+                                />
+                                {showProfile && (
+                                    <OutsideClickHandler
+                                        onClickOutside={() => setShowProfile(false)}
+                                        ignore={[profileRef]}
+                                    >
+                                        <div className="flex justify-end">
+                                            <UserProfile
+                                                user={userContext.user}
+                                                onClose={() => setShowProfile(false)}
+                                                signOut={signOut}
+                                            />
+                                        </div>
+                                    </OutsideClickHandler>
+                                )}
+                            </div>
+                        </Stack>
                     </Container>
                 </div>
             )}

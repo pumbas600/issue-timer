@@ -18,7 +18,7 @@ interface Props {
 const UserProfile: Component<Props> = (props) => {
     return (
         <Card className="absolute min-w-[300px] top-[70px] select-none">
-            <CardSection className="bg-highlight" top paddingBottom={false}>
+            <CardSection className="bg-blue-500" top paddingBottom={false}>
                 <Stack className="items-center">
                     <div className="flex items-center justify-between w-full">
                         <div className="w-8" />
@@ -27,7 +27,7 @@ const UserProfile: Component<Props> = (props) => {
                     </div>
                     <div className="relative -bottom-8 -mt-7">
                         <ProfilePicture
-                            className="p-0.5 border-2 bg-primary border-highlight"
+                            className="p-0.5 border-2 bg-white border-blue-500"
                             user={props.user}
                             width="64px"
                             height="64px"
@@ -37,7 +37,10 @@ const UserProfile: Component<Props> = (props) => {
             </CardSection>
             <Stack className="mt-10 items-center gap-y-2">
                 <p>{props.user.email}</p>
-                <OutlinedButton className="w-full" variant="danger" onClick={props.signOut}>
+                <OutlinedButton
+                    className="w-full text-red-500 hover:text-red-600 border-red-500 hover:border-red-600 bg-red-500"
+                    onClick={props.signOut}
+                >
                     Sign out
                 </OutlinedButton>
             </Stack>
