@@ -37,6 +37,10 @@
         @apply text-lg font-semibold px-7 py-1 rounded-lg;
     }
 
+    .icon-btn {
+        @apply flex items-center justify-center w-8 h-8 text-highlight transition-colors duration-300 hover:bg-opacity-10 rounded-full bg-gray-500;
+    }
+
     .card {
         @apply overflow-hidden px-6 py-3 border-secondary border rounded-lg shadow-lg;
     }

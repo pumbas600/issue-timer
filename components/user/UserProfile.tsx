@@ -6,7 +6,6 @@ import ProfilePicture from './ProfilePicture';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../inputs/buttons/IconButton';
 import OutlinedButton from '../inputs/buttons/OutlinedButton';
-import Button from '../inputs/buttons/Button';
 import CardSection from '../cards/CardSection';
 
 interface Props {
@@ -23,7 +22,7 @@ const UserProfile: Component<Props> = (props) => {
                     <div className="flex items-center justify-between w-full">
                         <div className="w-8" />
                         <h5 className="text-highlight">{props.user.displayName}</h5>
-                        <IconButton icon={faXmark} onClick={props.onClose} size="lg" />
+                        <IconButton icon={faXmark} onClick={props.onClose} size="lg" className="bg-blue-400" />
                     </div>
                     <div className="relative -bottom-8 -mt-7">
                         <ProfilePicture

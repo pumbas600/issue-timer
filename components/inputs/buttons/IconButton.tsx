@@ -12,14 +12,7 @@ export interface IconButtonProps extends ClassName {
 
 const IconButton: Component<IconButtonProps> = (props) => {
     return (
-        <button
-            onClick={props.onClick}
-            className={merge([
-                'flex items-center justify-center w-8 h-8 text-highlight transition-colors duration-300 bg-opacity-0 hover:bg-opacity-20 rounded-full',
-                Styles.secondary.bg.default,
-                props.className,
-            ])}
-        >
+        <button onClick={props.onClick} className={merge(['icon-btn bg-opacity-0', props.className])}>
             <FontAwesomeIcon icon={props.icon} size={props.size} />
         </button>
     );
