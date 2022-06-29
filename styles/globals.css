@@ -4,39 +4,39 @@
 
 @layer base {
     h1 {
-        @apply text-9xl text-black font-bold;
+        @apply text-8xl font-bold;
     }
 
     h2 {
-        @apply text-7xl text-black font-bold;
+        @apply text-7xl  font-bold;
     }
 
     h3 {
-        @apply text-4xl text-black font-semibold;
+        @apply text-4xl  font-bold;
     }
 
     h4 {
-        @apply text-2xl text-black font-semibold;
+        @apply text-2xl font-semibold;
     }
 
     h5 {
-        @apply text-xl text-black font-semibold;
+        @apply text-xl font-semibold;
     }
 
     h6 {
-        @apply text-lg text-black;
-    }
-
-    div {
-        @apply text-base text-black;
+        @apply text-lg;
     }
 
     p {
-        @apply text-sm text-black;
+        @apply text-base;
     }
 }
 
 @layer components {
+    .btn {
+        @apply text-lg font-semibold px-7 py-1 rounded-lg;
+    }
+
     .border-highlight {
         @apply border-blue-500;
     }

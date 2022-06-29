@@ -11,7 +11,7 @@ const Card: Component<Props> = (props) => {
                 props.className ?? ''
             }`}
         >
-            <span>{props.children}</span>
+            {props.children}
         </div>
     );
 };

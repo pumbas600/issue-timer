@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
 import OutsideClickHandler from './functional/OutsideClickHandler';
-import ProfilePicture from './user/ProfilePicture';
 import SignedInUser from './user/SignedInUser';
 import UserProfile from './user/UserProfile';
 import Container from './utility/Container';
@@ -22,11 +21,11 @@ const NavBar: Component = () => {
     }
 
     return (
-        <div className="border-b border-secondary py-2 mb-5">
-            <Container>
-                <div className="flex justify-end h-11">
-                    {userContext.user && (
-                        <div>
+        <div>
+            {userContext.user && (
+                <div className="border-b border-secondary py-2 mb-5">
+                    <Container>
+                        <div className="flex justify-end h-11">
                             <SignedInUser
                                 ref={profileRef}
                                 user={userContext.user}
@@ -46,9 +45,9 @@ const NavBar: Component = () => {
                                 </OutsideClickHandler>
                             )}
                         </div>
-                    )}
+                    </Container>
                 </div>
-            </Container>
+            )}
         </div>
     );
 };
