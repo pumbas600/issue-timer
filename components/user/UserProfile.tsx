@@ -23,7 +23,7 @@ const UserProfile: Component<Props> = (props) => {
                     <div className="flex items-center justify-between w-full">
                         <div className="w-8" />
                         <h5 className="text-highlight">{props.user.displayName}</h5>
-                        <IconButton icon={faXmark} onClick={props.onClose} />
+                        <IconButton icon={faXmark} onClick={props.onClose} size="lg" />
                     </div>
                     <div className="relative -bottom-8 -mt-7">
                         <ProfilePicture

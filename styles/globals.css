@@ -37,6 +37,10 @@
         @apply text-lg font-semibold px-7 py-1 rounded-lg;
     }
 
+    .card {
+        @apply overflow-hidden px-6 py-3 border-secondary border rounded-lg shadow-lg;
+    }
+
     .border-highlight {
         @apply border-blue-500;
     }

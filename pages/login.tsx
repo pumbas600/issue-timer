@@ -12,6 +12,7 @@ import { faWarning } from '@fortawesome/free-solid-svg-icons';
 import Stack from '../components/utility/Stack';
 import Checkbox from '../components/inputs/checkbox/Checkbox';
 import Label from '../components/inputs/Label';
+import InfoButton from '../components/inputs/buttons/InfoButton';
 
 const Login: Component = () => {
     const router = useRouter();
@@ -77,7 +78,7 @@ const Login: Component = () => {
                     <h3 className="text-blue-500">Issue Tracker</h3>
                 </div>
 
-                <Card>
+                <Card className="overflow-visible">
                     <Stack className="my-2 w-full gap-y-2">
                         {userContext.error && (
                             <div className="text-red-500 font-semibold leading-4">
@@ -87,14 +88,24 @@ const Login: Component = () => {
                                 </div>
                             </div>
                         )}
-                        <div>
-                            <Label label={<div className="font-semibold">Allow access to private repos</div>}>
+                        <div className="flex justify-between">
+                            <Label label={<div className="font-semibold">Allow access to private repositories</div>}>
                                 <Checkbox
                                     ring
                                     onClicked={allowPrivateRepos}
                                     checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'}
                                 />
                             </Label>
+                            <InfoButton
+                                className="text-gray-500"
+                                info={
+                                    <div className="w-[350px] whitespace-normal leading-5">
+                                        GitHub only allows access to issues in private repositories with the{' '}
+                                        <code className="font-semibold">repos</code> scope, which grants full access to
+                                        repositories. As such, this is opt-in.
+                                    </div>
+                                }
+                            />
                         </div>
                         {renderState()}
                     </Stack>
