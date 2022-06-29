@@ -7,6 +7,7 @@ export interface UserContextProps {
     user: User | null;
     loading: boolean;
     error: string;
+    accessToken: string | null;
     logoutUser: () => Promise<void>;
     signInWithGithub: VoidFunction;
 }
@@ -15,6 +16,7 @@ const UserContext = createContext<UserContextProps>({
     user: null,
     loading: false,
     error: '',
+    accessToken: null,
     logoutUser: async () => {},
     signInWithGithub: () => {},
 });
@@ -25,6 +27,7 @@ export const UserContextProvider: Component = (props) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [accessToken, setAccessToken] = useState<string | null>(null);
 
     useEffect(() => {
         setLoading(true);
@@ -43,6 +46,10 @@ export const UserContextProvider: Component = (props) => {
             const provider = new GithubAuthProvider();
             //provider.addScope('');
             const res = await signInWithPopup(Auth, provider);
+            const credential = GithubAuthProvider.credentialFromResult(res);
+            if (credential) {
+                setAccessToken(credential.accessToken ?? null);
+            }
             console.log(res);
         } catch (error) {
             console.log(error);
@@ -60,6 +67,7 @@ export const UserContextProvider: Component = (props) => {
         user,
         loading,
         error,
+        accessToken,
         logoutUser,
         signInWithGithub,
     };
