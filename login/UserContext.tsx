@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import { Component } from '../types/Utility';
 import { onAuthStateChanged, User, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import { Auth } from '../pages/api/firebase/FirebaseApp';
+import { canAccessPrivateRepos, clearStoredAccessToken, getStoredAccessToken, setStoredAccessToken } from './UserData';
 
 export interface UserContextProps {
     user: User | null;
@@ -16,20 +17,18 @@ const UserContext = createContext<UserContextProps>({
     user: null,
     loading: false,
     error: '',
-    accessToken: null,
+    accessToken: getStoredAccessToken(),
     logoutUser: async () => {},
     signInWithGithub: () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
 
-export const ALLOW_PRIVATE_REPOS = 'private_repos';
-
 export const UserContextProvider: Component = (props) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [accessToken, setAccessToken] = useState<string | null>(getStoredAccessToken());
 
     useEffect(() => {
         setLoading(true);
@@ -50,7 +49,7 @@ export const UserContextProvider: Component = (props) => {
 
             // The repo scope is the only way to get issues in private repositories,
             // but it also gives access to sensitive information like the codebase so only use this if specified.
-            if (localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true') {
+            if (canAccessPrivateRepos()) {
                 provider.addScope('repo');
             } else {
                 provider.addScope('public_repo');
@@ -58,12 +57,11 @@ export const UserContextProvider: Component = (props) => {
 
             const res = await signInWithPopup(Auth, provider);
             const credential = GithubAuthProvider.credentialFromResult(res);
-            if (credential) {
-                setAccessToken(credential.accessToken ?? null);
+            if (credential?.accessToken) {
+                setStoredAccessToken(credential.accessToken);
+                setAccessToken(credential.accessToken);
             }
-            console.log(res);
         } catch (error) {
-            console.log(error);
             setError((error as Error).message);
         } finally {
             setLoading(false);
@@ -71,6 +69,7 @@ export const UserContextProvider: Component = (props) => {
     }
 
     function logoutUser(): Promise<void> {
+        clearStoredAccessToken();
         return signOut(Auth);
     }
 

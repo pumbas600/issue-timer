@@ -9,8 +9,8 @@ import OutlinedButton from '../inputs/buttons/OutlinedButton';
 import CardSection from '../cards/CardSection';
 import Label from '../inputs/Label';
 import Checkbox from '../inputs/checkbox/Checkbox';
-import { ALLOW_PRIVATE_REPOS } from '../../login/UserContext';
 import CardSeparator from '../cards/CardSeparator';
+import { canAccessPrivateRepos } from '../../login/UserData';
 
 interface Props {
     user: User;
@@ -20,7 +20,7 @@ interface Props {
 
 const UserProfile: Component<Props> = (props) => {
     return (
-        <Card className="absolute min-w-[300px] top-[70px] select-none">
+        <Card className="absolute min-w-[300px] top-[70px] select-none bg-white">
             <CardSection className="bg-blue-500" top paddingBottom={false}>
                 <Stack className="items-center">
                     <div className="flex items-center justify-between w-full">
@@ -40,7 +40,7 @@ const UserProfile: Component<Props> = (props) => {
             </CardSection>
             <Stack className="mt-10 gap-y-2">
                 <Label label={<div className="font-semibold">Private repositories</div>}>
-                    <Checkbox readonly checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'} />
+                    <Checkbox readonly checked={canAccessPrivateRepos()} />
                 </Label>
                 <CardSeparator />
                 <OutlinedButton

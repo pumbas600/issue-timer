@@ -1,5 +1,5 @@
 import Container from '../components/utility/Container';
-import { ALLOW_PRIVATE_REPOS, useUserContext } from '../login/UserContext';
+import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -13,13 +13,14 @@ import Stack from '../components/utility/Stack';
 import Checkbox from '../components/inputs/checkbox/Checkbox';
 import Label from '../components/inputs/Label';
 import InfoButton from '../components/inputs/buttons/InfoButton';
+import { canAccessPrivateRepos, setCanAccessPrivateRepos } from '../login/UserData';
 
 const Login: Component = () => {
     const router = useRouter();
     const userContext = useUserContext();
 
     useEffect(() => {
-        if (userContext.user) {
+        if (userContext.user && userContext.accessToken) {
             const returnUrl = (router.query.returnUrl as string) || '/';
             router.push(returnUrl);
         }
@@ -29,11 +30,6 @@ const Login: Component = () => {
 
     function signInWithGithub() {
         userContext.signInWithGithub();
-    }
-
-    function allowPrivateRepos(allowed: boolean) {
-        if (allowed) localStorage.setItem(ALLOW_PRIVATE_REPOS, 'true');
-        else localStorage.removeItem(ALLOW_PRIVATE_REPOS);
     }
 
     function loadingIcon(): JSX.Element {
@@ -57,7 +53,7 @@ const Login: Component = () => {
     function renderState(): JSX.Element {
         const sharedStyles = `w-full py-2 border ${Styles.secondary.border.light} flex items-center gap-x-2 justify-center bg-gray-700`;
 
-        return userContext.loading || userContext.user ? (
+        return userContext.loading || (userContext.user && userContext.accessToken) ? (
             <div className={`${sharedStyles} btn text-white`}>
                 {loadingIcon()}
                 Loading...
@@ -90,11 +86,7 @@ const Login: Component = () => {
                         )}
                         <div className="flex justify-between">
                             <Label label={<div className="font-semibold">Allow access to private repositories</div>}>
-                                <Checkbox
-                                    ring
-                                    onClicked={allowPrivateRepos}
-                                    checked={localStorage.getItem(ALLOW_PRIVATE_REPOS) === 'true'}
-                                />
+                                <Checkbox ring onClicked={setCanAccessPrivateRepos} checked={canAccessPrivateRepos()} />
                             </Label>
                             <InfoButton
                                 className="text-gray-500"
@@ -102,7 +94,7 @@ const Login: Component = () => {
                                     <div className="w-[350px] whitespace-normal leading-5">
                                         GitHub only allows access to issues in private repositories with the{' '}
                                         <code className="font-semibold">repos</code> scope, which grants full access to
-                                        repositories. As such, this is opt-in.
+                                        repositories. As this level of access may concern some users, it is opt in.
                                     </div>
                                 }
                             />

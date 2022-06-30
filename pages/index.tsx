@@ -6,27 +6,27 @@ import Container from '../components/utility/Container';
 import { useUserContext } from '../login/UserContext';
 
 const Home: NextPage = () => {
-    const userContext = useUserContext();
-    const router = useRouter();
+    // const userContext = useUserContext();
 
-    console.log(userContext.accessToken);
-    const octokit = new Octokit({
-        auth: userContext.accessToken,
-    });
+    // console.log(userContext.accessToken);
+    // const octokit = new Octokit({
+    //     auth: userContext.accessToken,
+    // });
 
     useEffect(() => {
-        getIssues();
+        console.log('use effect');
+        //getIssues();
     }, []);
 
-    async function getIssues() {
-        try {
-            // const response = await octokit.request('/user', {});
-            // console.log(response);
-            console.log(await octokit.request('GET /issues', {}));
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    // async function getIssues() {
+    //     try {
+    //         // const response = await octokit.request('/user', {});
+    //         // console.log(response);
+    //         console.log(await octokit.request('GET /issues', {}));
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     return <Container></Container>;
 };
