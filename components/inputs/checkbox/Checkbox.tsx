@@ -22,8 +22,8 @@ const Checkbox: Component<CheckboxProps> = (props) => {
                 props.className ?? ''
             }`}
             onClick={() => {
-                if (props.readonly) return;
                 if (props.onClicked) props.onClicked(!checked);
+                if (props.readonly) return;
                 setChecked((checked) => !checked);
             }}
         >
