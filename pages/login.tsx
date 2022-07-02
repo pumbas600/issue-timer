@@ -20,7 +20,7 @@ const Login: Component = () => {
     const userContext = useUserContext();
 
     useEffect(() => {
-        if (userContext.user && userContext.accessToken) {
+        if (userContext.user && userContext.octokit) {
             const returnUrl = (router.query.returnUrl as string) || '/';
             router.push(returnUrl);
         }
@@ -53,7 +53,7 @@ const Login: Component = () => {
     function renderState(): JSX.Element {
         const sharedStyles = `w-full py-2 border ${Styles.secondary.border.light} flex items-center gap-x-2 justify-center bg-gray-700`;
 
-        return userContext.loading || (userContext.user && userContext.accessToken) ? (
+        return userContext.loading || (userContext.user && userContext.octokit) ? (
             <div className={`${sharedStyles} btn text-white`}>
                 {loadingIcon()}
                 Loading...

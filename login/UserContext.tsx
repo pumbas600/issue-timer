@@ -3,12 +3,13 @@ import { Component } from '../types/Utility';
 import { onAuthStateChanged, User, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import { Auth } from './firebase/FirebaseApp';
 import { canAccessPrivateRepos, clearStoredAccessToken, getStoredAccessToken, setStoredAccessToken } from './UserData';
+import { Octokit } from '@octokit/core';
 
 export interface UserContextProps {
     user: User | null;
     loading: boolean;
     error: string;
-    accessToken: string | null;
+    octokit: Octokit | null;
     logoutUser: () => Promise<void>;
     signInWithGithub: VoidFunction;
 }
@@ -17,22 +18,32 @@ const UserContext = createContext<UserContextProps>({
     user: null,
     loading: false,
     error: '',
-    accessToken: null,
+    octokit: null,
     logoutUser: async () => {},
     signInWithGithub: () => {},
 });
 
 export const useUserContext = () => useContext(UserContext);
 
+function createOctokit(accessToken: string): Octokit {
+    return new Octokit({
+        auth: accessToken,
+    });
+}
+
 export const UserContextProvider: Component = (props) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [octokit, setOctokit] = useState<Octokit | null>(null);
 
     useEffect(() => {
         setLoading(true);
-        setAccessToken(getStoredAccessToken());
+        const accessToken = getStoredAccessToken();
+        if (accessToken) {
+            setOctokit(createOctokit(accessToken));
+        }
+
         const unsubscribe = onAuthStateChanged(Auth, (user) => {
             setUser(user);
             setError('');
@@ -60,7 +71,7 @@ export const UserContextProvider: Component = (props) => {
             const credential = GithubAuthProvider.credentialFromResult(res);
             if (credential?.accessToken) {
                 setStoredAccessToken(credential.accessToken);
-                setAccessToken(credential.accessToken);
+                setOctokit(createOctokit(credential.accessToken));
             }
         } catch (error) {
             setError((error as Error).message);
@@ -78,7 +89,7 @@ export const UserContextProvider: Component = (props) => {
         user,
         loading,
         error,
-        accessToken,
+        octokit,
         logoutUser,
         signInWithGithub,
     };
