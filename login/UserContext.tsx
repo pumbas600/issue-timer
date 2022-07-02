@@ -17,7 +17,7 @@ const UserContext = createContext<UserContextProps>({
     user: null,
     loading: false,
     error: '',
-    accessToken: getStoredAccessToken(),
+    accessToken: null,
     logoutUser: async () => {},
     signInWithGithub: () => {},
 });
@@ -28,10 +28,11 @@ export const UserContextProvider: Component = (props) => {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [accessToken, setAccessToken] = useState<string | null>(getStoredAccessToken());
+    const [accessToken, setAccessToken] = useState<string | null>(null);
 
     useEffect(() => {
         setLoading(true);
+        setAccessToken(getStoredAccessToken());
         const unsubscribe = onAuthStateChanged(Auth, (user) => {
             setUser(user);
             setError('');
