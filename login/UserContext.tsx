@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { Component } from '../types/Utility';
 import { onAuthStateChanged, User, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
-import { Auth } from '../pages/api/firebase/FirebaseApp';
+import { Auth } from './firebase/FirebaseApp';
 import { canAccessPrivateRepos, clearStoredAccessToken, getStoredAccessToken, setStoredAccessToken } from './UserData';
 
 export interface UserContextProps {
