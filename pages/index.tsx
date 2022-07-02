@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import Container from '../components/utility/Container';
+import Timer from '../components/Timer';
+import Container from '../components/Utility/Container';
 import { useUserContext } from '../login/UserContext';
 
 const Home: NextPage = () => {
@@ -22,7 +22,11 @@ const Home: NextPage = () => {
     //     }
     // }
 
-    return <Container></Container>;
+    return (
+        <Container>
+            <Timer />
+        </Container>
+    );
 };
 
 export default Home;
