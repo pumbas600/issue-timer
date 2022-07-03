@@ -39,7 +39,7 @@ const UserProfile: Component<Props> = (props) => {
                 </Stack>
             </CardSection>
             <Stack className="mt-10 gap-y-2">
-                <Label label={<div className="font-semibold">Private repositories</div>}>
+                <Label placement="right" label={<div className="font-semibold">Private repositories</div>}>
                     <Checkbox ring readonly checked={canAccessPrivateRepos()} />
                 </Label>
                 <CardSeparator />

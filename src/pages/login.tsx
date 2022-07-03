@@ -85,7 +85,10 @@ const Login: Component = () => {
                             </div>
                         )}
                         <div className="flex justify-between">
-                            <Label label={<div className="font-semibold">Allow access to private repositories</div>}>
+                            <Label
+                                placement="right"
+                                label={<div className="font-semibold">Allow access to private repositories</div>}
+                            >
                                 <Checkbox ring onClicked={setCanAccessPrivateRepos} checked={canAccessPrivateRepos()} />
                             </Label>
                             <InfoButton

@@ -1,10 +1,10 @@
 import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { merge } from '../styles/Styles';
-import { Component } from '../types/Utility';
-import OutlinedButton from './inputs/buttons/OutlinedButton';
-import Stack from './utility/Stack';
+import { merge } from '../../styles/Styles';
+import { Component } from '../../types/Utility';
+import OutlinedButton from '../inputs/buttons/OutlinedButton';
+import Stack from '../utility/Stack';
 
 interface Props {
     onStart?: VoidFunction;

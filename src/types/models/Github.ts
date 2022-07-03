@@ -1,12 +1,12 @@
 export type IssueState = 'open' | 'closed';
 
 export interface Label {
-    id: number;
-    url: string;
-    name: string;
-    description: string;
-    color: string;
-    default: boolean;
+    id?: number;
+    url?: string;
+    name?: string;
+    description?: string | null;
+    color?: string | null;
+    default?: boolean;
 }
 
 export interface GithubUser {
@@ -23,20 +23,20 @@ export interface Repository {
     owner: GithubUser;
     private: boolean;
     html_url: string;
-    description: string;
+    description: string | null;
     fork: boolean;
     url: string;
     archive_url: string;
     open_issues_count: number;
-    topics: string[];
+    topics?: string[];
     has_issues: boolean;
     has_projects: boolean;
     archived: boolean;
     disabled: boolean;
-    visibility: 'public' | 'private' | 'internal';
-    pushed_at: string;
-    created_at: string;
-    updated_at: string;
+    visibility?: string; // 'public' | 'private' | 'internal';
+    pushed_at: string | null;
+    created_at: string | null;
+    updated_at: string | null;
     open_issues: number;
 }
 
@@ -46,15 +46,15 @@ export default interface Issue {
     repository_url: string;
     labels_url: string;
     number: number;
-    state: IssueState;
+    state: string; // IssueState
     title: string;
-    body: string;
-    user: GithubUser;
-    labels: Label[];
-    assignees: GithubUser[];
+    body?: string | null;
+    user: GithubUser | null;
+    labels: (string | Label)[];
+    assignees?: GithubUser[] | null;
     comments: number;
     closed_at: null | string;
     created_at: string;
     updated_at: string;
-    repository: Repository;
+    repository?: Repository;
 }

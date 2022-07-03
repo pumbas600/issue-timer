@@ -1,20 +1,26 @@
 import type { NextPage } from 'next';
-import { useEffect } from 'react';
-import Timer from '../components/Timer';
+import { useEffect, useState } from 'react';
+import IssueSelector from '../components/issues/IssueSelector';
+import Timer from '../components/issues/Timer';
 import Container from '../components/Utility/Container';
 import { useUserContext } from '../login/UserContext';
+import Issue from '../types/models/Github';
 
 const Home: NextPage = () => {
+    const [issues, setIssues] = useState<Issue[]>([]);
     const userContext = useUserContext();
 
     useEffect(() => {
-        console.log('use effect');
-        //getIssues();
+        getIssues();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getIssues() {
         try {
             const res = await userContext.octokit?.request('GET /issues', {});
+            if (res) {
+                setIssues(res.data);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -22,6 +28,7 @@ const Home: NextPage = () => {
 
     return (
         <Container>
+            <IssueSelector issues={issues} />
             <Timer />
         </Container>
     );
