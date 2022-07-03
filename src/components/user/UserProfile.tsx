@@ -40,7 +40,7 @@ const UserProfile: Component<Props> = (props) => {
             </CardSection>
             <Stack className="mt-10 gap-y-2">
                 <Label label={<div className="font-semibold">Private repositories</div>}>
-                    <Checkbox readonly checked={canAccessPrivateRepos()} />
+                    <Checkbox ring readonly checked={canAccessPrivateRepos()} />
                 </Label>
                 <CardSeparator />
                 <OutlinedButton

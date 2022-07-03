@@ -44,7 +44,7 @@ const Timer: Component<Props> = (props) => {
 
     function getDisplayTime(): string {
         const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor(seconds / 60) % 3600;
+        const minutes = Math.floor(seconds / 60) % 60;
         const displaySeconds = padDigits(seconds % 60);
 
         if (hours === 0) {
@@ -60,8 +60,8 @@ const Timer: Component<Props> = (props) => {
 
     return (
         <Stack orientation="row" className="gap-x-3">
-            <OutlinedButton className={merge(['rounded-xl', getStyles()])} onClick={toggleIsPaused}>
-                <Stack orientation="row" className="gap-x-5">
+            <OutlinedButton className={merge(['rounded-xl min-w-[160px] px-2', getStyles()])} onClick={toggleIsPaused}>
+                <Stack orientation="row" className="gap-x-5 justify-center">
                     <h3 className="leading-9">{getDisplayTime()}</h3>
                 </Stack>
             </OutlinedButton>
