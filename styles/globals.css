@@ -42,7 +42,11 @@
     }
 
     .icon-btn {
-        @apply flex items-center justify-center w-8 h-8 text-highlight transition-colors duration-300 hover:bg-opacity-10 rounded-full bg-gray-500;
+        @apply flex items-center justify-center w-8 h-8 text-white transition-opacity duration-300 hover:bg-opacity-10 rounded-full bg-gray-500;
+    }
+
+    .filled-icon-btn {
+        @apply flex items-center justify-center w-8 h-8 text-white rounded-md;
     }
 
     .card {

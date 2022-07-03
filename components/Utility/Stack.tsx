@@ -10,7 +10,7 @@ const Stack: Component<Props> = (props) => {
         return props.orientation === 'row' ? 'flex-row items-center' : 'flex-col';
     }
 
-    return <div className={`flex ${orientationStyles()} ${props.className ?? ''}`}>{props.children}</div>;
+    return <div className={`flex ${props.className ?? ''} ${orientationStyles()}`}>{props.children}</div>;
 };
 
 export default Stack;

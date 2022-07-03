@@ -2,7 +2,9 @@ import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { clearInterval } from 'timers';
 import { Component } from '../types/Utility';
+import FilledIconButton from './inputs/buttons/FilledIconButton';
 import IconButton from './inputs/buttons/IconButton';
+import Stack from './utility/Stack';
 
 interface Props {
     onStart?: VoidFunction;
@@ -11,27 +13,19 @@ interface Props {
 }
 
 const Timer: Component<Props> = (props) => {
-    const [startTime, setStartTime] = useState<Date | null>(null);
     const [seconds, setSeconds] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
+    const [isPaused, setIsPaused] = useState(true);
 
     useEffect(() => {
-        if (startTime && !isPaused) {
-            const interval = setInterval(() => setSeconds((seconds) => seconds + 1), 1000);
-            return () => clearInterval(interval);
+        if (!isPaused) {
+            const timeout = setTimeout(() => setSeconds((seconds) => seconds + 1), 1000);
+            return () => clearTimeout(timeout);
         }
         return () => {};
-    }, [startTime, isPaused]);
-
-    function startTimer() {
-        reset();
-        setStartTime(new Date());
-        if (props.onStart) props.onStart();
-    }
+    }, [seconds, isPaused]);
 
     function reset() {
         if (props.onReset) props.onReset(seconds);
-        setStartTime(null);
         setSeconds(0);
         setIsPaused(false);
     }
@@ -59,25 +53,22 @@ const Timer: Component<Props> = (props) => {
     }
 
     return (
-        <div>
+        <Stack orientation="row" className="gap-x-2">
             <h3>{`${getDisplayHours()}:${getDisplayMinutes()}:${getDisplaySeconds()}`}</h3>
             {isPaused ? (
-                <div className="rounded-md bg-emerald-500 hover:bg-emerald-600 w-min">
-                    <IconButton
-                        className="text-white"
-                        icon={faPlay}
-                        onClick={() => {
-                            if (startTime) toggleIsPaused();
-                            else startTimer();
-                        }}
-                    />
-                </div>
+                <FilledIconButton
+                    className="w-9 h-9 bg-emerald-500 hover:bg-emerald-600"
+                    icon={faPlay}
+                    onClick={toggleIsPaused}
+                />
             ) : (
-                <div className="rounded-md bg-red-500 hover:bg-red-600 w-min">
-                    <IconButton className="text-white" icon={faStop} onClick={toggleIsPaused} />
-                </div>
+                <FilledIconButton
+                    className="w-9 h-9 bg-red-500 hover:bg-red-600"
+                    icon={faStop}
+                    onClick={toggleIsPaused}
+                />
             )}
-        </div>
+        </Stack>
     );
 };
 

@@ -3,12 +3,12 @@ import { merge } from '../../../styles/Styles';
 import { Component } from '../../../types/Utility';
 import { IconButtonProps } from './ButtonCommon';
 
-const IconButton: Component<IconButtonProps> = (props) => {
+const FilledIconButton: Component<IconButtonProps> = (props) => {
     return (
-        <button onClick={props.onClick} className={merge(['icon-btn bg-opacity-0', props.className])}>
+        <div className={merge(['filled-icon-btn', props.className])} onClick={props.onClick}>
             <FontAwesomeIcon icon={props.icon} size={props.size} />
-        </button>
+        </div>
     );
 };
 
-export default IconButton;
+export default FilledIconButton;
