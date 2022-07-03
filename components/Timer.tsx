@@ -1,9 +1,9 @@
-import { faPause, faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
+import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { clearInterval } from 'timers';
+import { merge } from '../styles/Styles';
 import { Component } from '../types/Utility';
-import FilledIconButton from './inputs/buttons/FilledIconButton';
-import IconButton from './inputs/buttons/IconButton';
+import OutlinedButton from './inputs/buttons/OutlinedButton';
 import Stack from './utility/Stack';
 
 interface Props {
@@ -27,7 +27,7 @@ const Timer: Component<Props> = (props) => {
     function reset() {
         if (props.onReset) props.onReset(seconds);
         setSeconds(0);
-        setIsPaused(false);
+        setIsPaused(true);
     }
 
     function toggleIsPaused() {
@@ -40,33 +40,36 @@ const Timer: Component<Props> = (props) => {
         return num.toString().padStart(2, '0');
     }
 
-    function getDisplaySeconds(): string {
-        return padDigits(seconds % 60);
+    function getDisplayTime(): string {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor(seconds / 60) % 3600;
+        const displaySeconds = padDigits(seconds % 60);
+
+        if (hours === 0) {
+            return `${minutes.toString()}:${displaySeconds}`;
+        } else return `${hours.toString()}:${padDigits(minutes)}:${displaySeconds}`;
     }
 
-    function getDisplayMinutes(): string {
-        return padDigits(Math.floor(seconds / 60) % 3600);
-    }
-
-    function getDisplayHours(): string {
-        return padDigits(Math.floor(seconds / 3600));
+    function getStyles(): string {
+        return isPaused
+            ? 'border-emerald-500 hover:border-emerald-600 text-emerald-500 hover:text-emerald-600 bg-emerald-500'
+            : 'border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500';
     }
 
     return (
-        <Stack orientation="row" className="gap-x-2">
-            <h3>{`${getDisplayHours()}:${getDisplayMinutes()}:${getDisplaySeconds()}`}</h3>
-            {isPaused ? (
-                <FilledIconButton
-                    className="w-9 h-9 bg-emerald-500 hover:bg-emerald-600"
-                    icon={faPlay}
-                    onClick={toggleIsPaused}
-                />
-            ) : (
-                <FilledIconButton
-                    className="w-9 h-9 bg-red-500 hover:bg-red-600"
-                    icon={faStop}
-                    onClick={toggleIsPaused}
-                />
+        <Stack orientation="row" className="gap-x-3">
+            <OutlinedButton className={merge(['rounded-xl', getStyles()])} onClick={toggleIsPaused}>
+                <Stack orientation="row" className="gap-x-5">
+                    <h3 className="leading-9">{getDisplayTime()}</h3>
+                </Stack>
+            </OutlinedButton>
+            {isPaused && seconds !== 0 && (
+                <OutlinedButton
+                    className="border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500 px-3 py-2 rounded-xl"
+                    onClick={reset}
+                >
+                    <FontAwesomeIcon icon={faClockRotateLeft} size="lg" />
+                </OutlinedButton>
             )}
         </Stack>
     );
