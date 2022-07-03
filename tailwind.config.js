@@ -5,7 +5,7 @@ function at(url) {
 }
 
 module.exports = {
-    content: [at('./pages'), at('./components'), at('./styles')],
+    content: ['src/**/*.{js,ts,jsx,tsx}'],
     theme: {
         extend: {},
     },

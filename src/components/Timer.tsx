@@ -16,6 +16,8 @@ const Timer: Component<Props> = (props) => {
     const [seconds, setSeconds] = useState(0);
     const [isPaused, setIsPaused] = useState(true);
 
+    const redStyles = 'border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500';
+
     useEffect(() => {
         if (!isPaused) {
             const timeout = setTimeout(() => setSeconds((seconds) => seconds + 1), 1000);
@@ -53,7 +55,7 @@ const Timer: Component<Props> = (props) => {
     function getStyles(): string {
         return isPaused
             ? 'border-emerald-500 hover:border-emerald-600 text-emerald-500 hover:text-emerald-600 bg-emerald-500'
-            : 'border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500';
+            : redStyles;
     }
 
     return (
@@ -64,10 +66,7 @@ const Timer: Component<Props> = (props) => {
                 </Stack>
             </OutlinedButton>
             {isPaused && seconds !== 0 && (
-                <OutlinedButton
-                    className="border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500 px-3 py-2 rounded-xl"
-                    onClick={reset}
-                >
+                <OutlinedButton className={`${redStyles} px-3 py-2 rounded-xl`} onClick={reset}>
                     <FontAwesomeIcon icon={faClockRotateLeft} size="lg" />
                 </OutlinedButton>
             )}
