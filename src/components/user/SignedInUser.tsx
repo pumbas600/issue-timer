@@ -1,11 +1,8 @@
 import { User } from 'firebase/auth';
-import Image from 'next/image';
-import { forwardRef, MutableRefObject } from 'react';
-import { useUserContext } from '../../login/UserContext';
+import { forwardRef } from 'react';
 import { ForwardRefComponent } from '../../types/Utility';
 import OutlinedButton from '../inputs/buttons/OutlinedButton';
-import Card from '../cards/Card';
-import Stack from '../utility/Stack';
+import Stack from '../Utility/Stack';
 import ProfilePicture from './ProfilePicture';
 
 interface Props {

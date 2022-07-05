@@ -11,7 +11,7 @@ const Label: Component<Props> = (props) => {
     const isAfter = props.placement === 'right' || props.placement === 'below';
 
     return (
-        <Stack orientation={isRow ? 'row' : 'col'} className="gap-x-2">
+        <Stack orientation={isRow ? 'row' : 'col'} className="gap-x-2 w-full">
             {!isAfter && props.label}
             <div>{props.children}</div>
             {isAfter && props.label}

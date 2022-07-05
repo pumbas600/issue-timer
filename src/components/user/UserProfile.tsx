@@ -20,7 +20,7 @@ interface Props {
 
 const UserProfile: Component<Props> = (props) => {
     return (
-        <Card className="absolute min-w-[300px] top-[70px] select-none bg-white">
+        <Card className="absolute min-w-[300px] top-[70px] select-none bg-white z-10">
             <CardSection className="bg-blue-500" top paddingBottom={false}>
                 <Stack className="items-center">
                     <div className="flex items-center justify-between w-full">

@@ -4,12 +4,11 @@ import Issue from '../../types/models/Github';
 import { Component } from '../../types/Utility';
 import { capitalise } from '../../utility/Utility';
 import Card from '../cards/Card';
-import CardSection from '../cards/CardSection';
-import Button from '../inputs/buttons/Button';
 import FilledIconButton from '../inputs/buttons/FilledIconButton';
 import Dropdown from '../inputs/dropdown/Dropdown';
 import Option from '../inputs/dropdown/Option';
-import Stack from '../utility/Stack';
+import Label from '../inputs/Label';
+import Stack from '../Utility/Stack';
 
 interface Props {
     issues: Issue[];
@@ -34,12 +33,21 @@ const IssueSelector: Component<Props> = (props) => {
     return (
         <div className="m-2 flex justify-center">
             <Card className="w-[500px] overflow-visible">
-                <Stack orientation="row" className="gap-x-2">
-                    <Dropdown placeholder="Select issue" onSelect={(value) => console.log('Selected ' + value)}>
-                        {generateOptions()}
-                    </Dropdown>
-                    <FilledIconButton className="bg-blue-500 hover:bg-blue-600 w-9 h-9" icon={faPlus} />
-                </Stack>
+                <Label label={<h5>Select Issue</h5>}>
+                    <Stack orientation="row" className="gap-x-2">
+                        <Dropdown
+                            className="text-gray-500 hover:text-gray-600 border-gray-500 hover:border-gray-600 bg-gray-500"
+                            placeholder="The issue..."
+                            onSelect={(value) => console.log('Selected ' + value)}
+                        >
+                            {generateOptions()}
+                        </Dropdown>
+                        <FilledIconButton
+                            className="bg-blue-500 hover:bg-blue-600 min-w-[38px] min-h-[38px]"
+                            icon={faPlus}
+                        />
+                    </Stack>
+                </Label>
             </Card>
         </div>
     );
