@@ -4,8 +4,7 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 import { merge } from '../../../styles/Styles';
 import { ClassName } from '../../../types/Props';
 import { Component } from '../../../types/Utility';
-import { forEachChildren, childrenMap, childrenToArray, first } from '../../../utility/Utility';
-import Card from '../../cards/Card';
+import { childrenToArray, first } from '../../../utility/Utility';
 import OutsideClickHandler from '../../functional/OutsideClickHandler';
 import Stack from '../../utility/Stack';
 import OutlinedButton from '../buttons/OutlinedButton';
@@ -13,7 +12,7 @@ import Option, { OptionProps } from './Option';
 
 interface Props extends ClassName {
     placeholder?: string;
-    value?: string;
+    value?: string | null;
     onSelect?: (value: string) => void;
 }
 
@@ -51,7 +50,7 @@ const Dropdown: Component<Props> = (props) => {
             <OutsideClickHandler disable={!showOptions} onClickOutside={() => setShowOptions(false)}>
                 <OutlinedButton
                     className={merge([
-                        'px-3 w-full py-1 whitespace-nowrap text-left flex flex-row items-center justify-between',
+                        'px-3 w-full whitespace-nowrap text-left flex flex-row items-center justify-between',
                         props.className,
                     ])}
                     onClick={() => setShowOptions((showOptions) => !showOptions)}

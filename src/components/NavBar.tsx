@@ -5,7 +5,7 @@ import { Component } from '../types/Utility';
 import OutsideClickHandler from './functional/OutsideClickHandler';
 import SignedInUser from './user/SignedInUser';
 import UserProfile from './user/UserProfile';
-import Container from './Utility/Container';
+import Container from './utility/Container';
 import Stack from './utility/Stack';
 
 const NavBar: Component = () => {

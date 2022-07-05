@@ -1,4 +1,4 @@
-import Container from '../components/Utility/Container';
+import Container from '../components/utility/Container';
 import { useUserContext } from '../login/UserContext';
 import { Component } from '../types/Utility';
 import { useRouter } from 'next/router';

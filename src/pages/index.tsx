@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import IssueSelector from '../components/issues/IssueSelector';
 import Timer from '../components/issues/Timer';
-import Container from '../components/Utility/Container';
+import Container from '../components/utility/Container';
 import { useUserContext } from '../login/UserContext';
 import Issue from '../types/models/Github';
 

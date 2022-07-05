@@ -46,7 +46,7 @@
     }
 
     .filled-icon-btn {
-        @apply flex items-center justify-center w-8 h-8 text-white rounded-md;
+        @apply flex items-center justify-center min-w-[36px] min-h-[36px] text-white rounded-md;
     }
 
     .card {

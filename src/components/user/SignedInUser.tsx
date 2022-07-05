@@ -2,7 +2,7 @@ import { User } from 'firebase/auth';
 import { forwardRef } from 'react';
 import { ForwardRefComponent } from '../../types/Utility';
 import OutlinedButton from '../inputs/buttons/OutlinedButton';
-import Stack from '../Utility/Stack';
+import Stack from '../utility/Stack';
 import ProfilePicture from './ProfilePicture';
 
 interface Props {
