@@ -3,7 +3,11 @@ import { useState } from 'react';
 import Issue from '../../types/models/Github';
 import { Component } from '../../types/Utility';
 import Card from '../cards/Card';
+import CardSection from '../cards/CardSection';
+import Button from '../inputs/buttons/Button';
 import FilledIconButton from '../inputs/buttons/FilledIconButton';
+import Dropdown from '../inputs/dropdown/Dropdown';
+import Option from '../inputs/dropdown/Option';
 import Label from '../inputs/Label';
 import Stack from '../utility/Stack';
 
@@ -19,6 +23,10 @@ const IssueSelector: Component<Props> = (props) => {
             <Card className="w-[500px]">
                 <Label label={<h6 className="font-semibold">Select Issue</h6>}>
                     <Stack orientation="row" className="gap-x-2">
+                        <Dropdown>
+                            <Option value="A" />
+                            <Option value="B" />
+                        </Dropdown>
                         <select className="p-1.5 border border-gray-300 rounded-lg">
                             {props.issues.map((issue) => {
                                 return (
