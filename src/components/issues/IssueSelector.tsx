@@ -39,7 +39,7 @@ const IssueSelector: Component<Props> = (props) => {
 
     return (
         <div className="flex justify-center">
-            <Card className="w-[500px] overflow-visible">
+            <Card className="w-full overflow-visible">
                 <Label label={<h5>Select Issue</h5>}>
                     <Stack orientation="row" className="gap-x-2 mt-1">
                         <Dropdown

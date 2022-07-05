@@ -43,22 +43,22 @@ const Dropdown: Component<Props> = (props) => {
     }
 
     return (
-        <div className="relative w-full">
-            <OutsideClickHandler disable={!showOptions} onClickOutside={() => setShowOptions(false)}>
+        <div className="relative w-full overflow-x-clip">
+            <OutsideClickHandler className="" disable={!showOptions} onClickOutside={() => setShowOptions(false)}>
                 <OutlinedButton
                     className={merge([
-                        'px-3 w-full whitespace-nowrap text-left flex flex-row items-center justify-between',
+                        'px-3 w-full whitespace-nowrap text-left flex flex-row gap-x-2 items-center justify-between',
                         props.className,
                     ])}
                     onClick={() => setShowOptions((showOptions) => !showOptions)}
                 >
-                    <div className="font-normal">
+                    <div className="font-normal overflow-x-hidden">
                         {findOptionByValue(props.value)?.props.children ?? props.placeholder}
                     </div>
                     <FontAwesomeIcon icon={showOptions ? faCaretDown : faCaretLeft} size="lg" />
                 </OutlinedButton>
                 {showOptions && (
-                    <Stack className="absolute top-10 w-full rounded-lg border border-gray-300 bg-white text-left overflow-x-hidden gap-y-0.5 ">
+                    <Stack className="top-10 absolute w-full rounded-lg border border-gray-300 bg-white text-left overflow-x-hidden gap-y-0.5 ">
                         {children()}
                     </Stack>
                 )}

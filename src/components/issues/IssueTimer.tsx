@@ -6,6 +6,7 @@ import Card from '../cards/Card';
 import CardSeparator from '../cards/CardSeparator';
 import IconButton from '../inputs/buttons/IconButton';
 import Stack from '../utility/Stack';
+import TableRow from '../utility/TableRow';
 import Timer from './Timer';
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 
 export function issueTitle(issue: IssueTimer): ReactNode {
     return (
-        <Stack orientation="row">
+        <Stack orientation="row" className="whitespace-nowrap">
             {issue.repository && capitalise(issue.repository?.name) + '/'}
             <div className="font-semibold text-ellipsis whitespace-nowrap overflow-hidden">{issue.title}</div>
         </Stack>
@@ -33,8 +34,8 @@ const IssueTimer: FC<Props> = (props) => {
     return (
         <Card>
             <Stack className="gap-y-2">
-                <Stack orientation="row" className="justify-between">
-                    <h5 className="w-full">{issueTitle(props.issue)}</h5>
+                <Stack orientation="row" className="flex-reverse">
+                    <h5 className="w-full overflow-hidden">{issueTitle(props.issue)}</h5>
                     <IconButton icon={faTrash} className="text-red-500 bg-red-500" onClick={props.onDelete} />
                 </Stack>
                 <CardSeparator />

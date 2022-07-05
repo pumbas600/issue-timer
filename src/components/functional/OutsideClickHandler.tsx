@@ -1,7 +1,8 @@
 import { ForwardedRef, MutableRefObject, useEffect, useRef } from 'react';
+import { ClassName } from '../../types/Props';
 import { Component } from '../../types/Utility';
 
-interface Props {
+interface Props extends ClassName {
     onClickOutside: VoidFunction;
     disable?: boolean;
     ignore?: MutableRefObject<null | HTMLDivElement>[];
@@ -29,7 +30,11 @@ const OutsideClickHandler: Component<Props> = (props) => {
         };
     }, [props]);
 
-    return <div ref={ref}>{props.children}</div>;
+    return (
+        <div className={props.className} ref={ref}>
+            {props.children}
+        </div>
+    );
 };
 
 export default OutsideClickHandler;
