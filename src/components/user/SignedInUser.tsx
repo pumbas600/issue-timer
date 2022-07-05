@@ -13,7 +13,7 @@ interface Props {
 const SignedInUser: ForwardRefComponent<HTMLDivElement, Props> = (props, profileRef) => {
     return (
         <Stack className="gap-x-2 select-none" orientation="row">
-            <Stack className="text-right">
+            <Stack className="text-right hidden sm:flex">
                 <p className="leading-4">Signed in as</p>
                 <div className="font-bold leading-4">{props.user.displayName}</div>
             </Stack>

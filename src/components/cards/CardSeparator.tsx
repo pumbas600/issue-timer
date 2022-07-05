@@ -1,7 +1,9 @@
-import { Component } from '../../types/Utility';
+import { FC } from 'react';
+import { merge } from '../../styles/Styles';
+import { ClassName } from '../../types/Props';
 
-const CardSeparator: Component = () => {
-    return <hr className="-mx-6 my-0.5" />;
+const CardSeparator: FC<ClassName> = (props) => {
+    return <hr className={merge(['card-separator', props.className])} />;
 };
 
 export default CardSeparator;

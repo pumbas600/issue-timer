@@ -53,6 +53,10 @@
         @apply overflow-hidden px-6 py-3 border-secondary border rounded-lg shadow-lg;
     }
 
+    .card-separator {
+        @apply -mx-6 my-0.5;
+    }
+
     .border-highlight {
         @apply border-blue-500;
     }
