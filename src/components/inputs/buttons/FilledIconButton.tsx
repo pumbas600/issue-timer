@@ -5,9 +5,13 @@ import { IconButtonProps } from './ButtonCommon';
 
 const FilledIconButton: Component<IconButtonProps> = (props) => {
     return (
-        <div className={merge(['filled-icon-btn', props.className])} onClick={props.onClick}>
+        <button
+            className={merge(['filled-icon-btn', props.className])}
+            onClick={props.onClick}
+            disabled={props.disabled}
+        >
             <FontAwesomeIcon icon={props.icon} size={props.size} />
-        </div>
+        </button>
     );
 };
 

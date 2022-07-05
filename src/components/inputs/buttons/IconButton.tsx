@@ -5,7 +5,11 @@ import { IconButtonProps } from './ButtonCommon';
 
 const IconButton: Component<IconButtonProps> = (props) => {
     return (
-        <button onClick={props.onClick} className={merge(['icon-btn bg-opacity-0', props.className])}>
+        <button
+            onClick={props.onClick}
+            className={merge(['icon-btn bg-opacity-0', props.className])}
+            disabled={props.disabled}
+        >
             <FontAwesomeIcon icon={props.icon} size={props.size} />
         </button>
     );

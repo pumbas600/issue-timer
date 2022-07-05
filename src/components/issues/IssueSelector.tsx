@@ -30,7 +30,6 @@ const IssueSelector: Component<Props> = (props) => {
     }
 
     function addIssue() {
-        console.log('Setting null');
         if (props.onAddIssue) {
             const issue = first(props.issues, (issue) => issue.id.toString() === selectedIssue);
             if (issue) props.onAddIssue(issue);
@@ -51,7 +50,12 @@ const IssueSelector: Component<Props> = (props) => {
                         >
                             {generateOptions()}
                         </Dropdown>
-                        <FilledIconButton className="bg-blue-500 hover:bg-blue-600" icon={faPlus} onClick={addIssue} />
+                        <FilledIconButton
+                            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-400"
+                            icon={faPlus}
+                            onClick={addIssue}
+                            disabled={selectedIssue === null}
+                        />
                     </Stack>
                 </Label>
             </Card>

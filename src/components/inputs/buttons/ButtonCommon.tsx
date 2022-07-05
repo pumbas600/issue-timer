@@ -12,6 +12,7 @@ export interface ButtonProps extends ClassName {
 
 export interface IconButtonProps extends ClassName {
     icon: IconProp;
+    disabled?: boolean;
     onClick?: VoidFunction;
     size?: SizeProp;
 }
