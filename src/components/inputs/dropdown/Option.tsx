@@ -1,11 +1,11 @@
 import { Component } from '../../../types/Utility';
 
-export interface OptionProps {
+interface Props {
     onClick?: VoidFunction;
     value: string;
 }
 
-const Option: Component<OptionProps> = (props) => {
+const Option: Component<Props> = (props) => {
     return <div>Hello!</div>;
 };
 

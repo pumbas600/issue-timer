@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from '../../../types/Utility';
 import { mapChildren } from '../../../utility/Utility';
 import OutlinedButton from '../buttons/OutlinedButton';
-import Option, { OptionProps } from './Option';
+import Option from './Option';
 
 interface Props {
     placeholder?: string;

@@ -8,13 +8,13 @@ export function isComponent(type: JSXElementConstructor<any> | string): type is 
     return type !== null && typeof type !== 'string';
 }
 
-export function mapChildren<TProps, TResult = void>(
+export function mapChildren<TProps = {}, TResult = void>(
     children: ReactNode | undefined,
-    type: string,
+    type: (props: TProps) => ReactNode,
     mapper: (child: ReactElement<TProps>, index?: number) => TResult,
 ) {
     Children.map(children, (child, index) => {
-        if (!isReactElement(child) || !isComponent(child.type) || child.type.name !== type) return child;
+        if (!isReactElement(child) || !isComponent(child.type) || child.type.name !== type.name) return child;
         return mapper(child, index);
     });
 }
