@@ -4,9 +4,7 @@ import Issue from '../../types/models/Github';
 import { Component } from '../../types/Utility';
 import { capitalise, first } from '../../utility/Utility';
 import Card from '../cards/Card';
-import Button from '../inputs/buttons/Button';
 import FilledIconButton from '../inputs/buttons/FilledIconButton';
-import OutlinedButton from '../inputs/buttons/OutlinedButton';
 import Dropdown from '../inputs/dropdown/Dropdown';
 import Option from '../inputs/dropdown/Option';
 import Label from '../inputs/Label';
@@ -34,6 +32,7 @@ const IssueSelector: Component<Props> = (props) => {
     }
 
     function addIssue() {
+        console.log('Setting null');
         if (props.onAddIssue) {
             const issue = first(props.issues, (issue) => issue.id.toString() === selectedIssue);
             if (issue) props.onAddIssue(issue);

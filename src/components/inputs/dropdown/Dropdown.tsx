@@ -17,11 +17,10 @@ interface Props extends ClassName {
 }
 
 const Dropdown: Component<Props> = (props) => {
-    const [selected, setSelected] = useState<ReactElement<OptionProps> | null>(findChildByValue(props.value));
     const [showOptions, setShowOptions] = useState(false);
 
-    function findChildByValue(value: string | undefined | null): ReactElement<OptionProps> | null {
-        if (!value) return null;
+    function findOptionByValue(value: string | undefined | null): ReactElement<OptionProps> | null {
+        if (value === null || value === undefined) return null;
         return first(childrenToArray(props.children, Option), (child) => child.props.value === value);
     }
 
@@ -32,12 +31,10 @@ const Dropdown: Component<Props> = (props) => {
                 ? () => {
                       child.props.onClick!();
                       if (props.onSelect) props.onSelect(child.props.value);
-                      setSelected(child);
                       setShowOptions(false);
                   }
                 : () => {
                       if (props.onSelect) props.onSelect!(child.props.value);
-                      setSelected(child);
                       setShowOptions(false);
                   };
 
@@ -55,7 +52,9 @@ const Dropdown: Component<Props> = (props) => {
                     ])}
                     onClick={() => setShowOptions((showOptions) => !showOptions)}
                 >
-                    <div className="font-normal">{selected?.props.children ?? props.placeholder}</div>
+                    <div className="font-normal">
+                        {findOptionByValue(props.value)?.props.children ?? props.placeholder}
+                    </div>
                     <FontAwesomeIcon icon={showOptions ? faCaretDown : faCaretLeft} size="lg" />
                 </OutlinedButton>
                 {showOptions && (
