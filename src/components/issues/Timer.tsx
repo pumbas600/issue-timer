@@ -13,28 +13,28 @@ interface Props {
 }
 
 const Timer: Component<Props> = (props) => {
-    const [seconds, setSeconds] = useState(0);
+    const [ms, setMs] = useState(0);
     const [isPaused, setIsPaused] = useState(true);
 
     const redStyles = 'border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500';
 
     useEffect(() => {
         if (!isPaused) {
-            const timeout = setTimeout(() => setSeconds((seconds) => seconds + 1), 1000);
-            return () => clearTimeout(timeout);
+            const interval = setInterval(() => setMs((ms) => ms + 10), 10);
+            return () => clearInterval(interval);
         }
         return () => {};
-    }, [seconds, isPaused]);
+    }, [isPaused]);
 
     function reset() {
-        if (props.onReset) props.onReset(seconds);
-        setSeconds(0);
+        if (props.onReset) props.onReset(ms);
+        setMs(0);
         setIsPaused(true);
     }
 
     function toggleIsPaused() {
         const newIsPaused = !isPaused;
-        if (props.onTogglePause) props.onTogglePause(newIsPaused, seconds);
+        if (props.onTogglePause) props.onTogglePause(newIsPaused, ms);
         setIsPaused(newIsPaused);
     }
 
@@ -43,13 +43,13 @@ const Timer: Component<Props> = (props) => {
     }
 
     function getDisplayTime(): string {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor(seconds / 60) % 60;
-        const displaySeconds = padDigits(seconds % 60);
+        const hours = Math.floor(ms / 3_600_000);
+        const minutes = Math.floor(ms / 60_000) % 60;
+        const seconds = Math.floor(ms / 1_000) % 60;
 
         if (hours === 0) {
-            return `${minutes.toString()}:${displaySeconds}`;
-        } else return `${hours.toString()}:${padDigits(minutes)}:${displaySeconds}`;
+            return `${minutes.toString()}:${padDigits(seconds)}`;
+        } else return `${hours.toString()}:${padDigits(minutes)}:${padDigits(seconds)}`;
     }
 
     function getStyles(): string {
@@ -65,7 +65,7 @@ const Timer: Component<Props> = (props) => {
                     <h3 className="leading-9">{getDisplayTime()}</h3>
                 </Stack>
             </OutlinedButton>
-            {isPaused && seconds !== 0 && (
+            {isPaused && ms !== 0 && (
                 <OutlinedButton className={`${redStyles} px-3 py-2 rounded-xl`} onClick={reset}>
                     <FontAwesomeIcon icon={faClockRotateLeft} size="lg" />
                 </OutlinedButton>
