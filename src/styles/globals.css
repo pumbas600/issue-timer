@@ -42,7 +42,7 @@
     }
 
     .icon-btn {
-        @apply flex items-center justify-center w-8 h-8 text-white transition-opacity duration-300 hover:bg-opacity-10 rounded-full bg-gray-500;
+        @apply flex items-center justify-center min-w-[36px] min-h-[36px] text-white transition duration-300 ease-in-out hover:bg-opacity-10 rounded-full bg-gray-500;
     }
 
     .filled-icon-btn {

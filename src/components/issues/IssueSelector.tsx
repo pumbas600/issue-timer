@@ -9,7 +9,7 @@ import Dropdown from '../inputs/dropdown/Dropdown';
 import Option from '../inputs/dropdown/Option';
 import Label from '../inputs/Label';
 import Stack from '../utility/Stack';
-import { issueTitle } from './Issue';
+import { issueTitle } from './IssueTimer';
 
 interface Props {
     issues: Issue[];

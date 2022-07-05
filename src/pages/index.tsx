@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import IssueTimer from '../components/issues/Issue';
+import IssueTimer from '../components/issues/IssueTimer';
 import IssueSelector from '../components/issues/IssueSelector';
 import Container from '../components/utility/Container';
 import Stack from '../components/utility/Stack';
@@ -28,12 +28,17 @@ const Home: NextPage = () => {
         }
     }
 
+    function deleteIssue(issueToDelete: Issue) {
+        console.log('deleting!');
+        setTimedIssues((issues) => issues.filter((issue) => issue.id !== issueToDelete.id));
+    }
+
     return (
         <Container>
             <Stack className="sm:w-[500px] w-full gap-y-2">
                 <IssueSelector issues={issues} onAddIssue={(issue) => setTimedIssues((issues) => [...issues, issue])} />
                 {timedIssues.map((issue) => {
-                    return <IssueTimer key={issue.id} issue={issue} />;
+                    return <IssueTimer key={issue.id} issue={issue} onDelete={() => deleteIssue(issue)} />;
                 })}
             </Stack>
         </Container>
