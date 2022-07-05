@@ -3,6 +3,7 @@ import { Component } from '../../types/Utility';
 
 interface Props {
     onClickOutside: VoidFunction;
+    disable?: boolean;
     ignore?: MutableRefObject<null | HTMLDivElement>[];
 }
 
@@ -10,6 +11,8 @@ const OutsideClickHandler: Component<Props> = (props) => {
     const ref = useRef<null | HTMLDivElement>(null);
 
     useEffect(() => {
+        if (props.disable) return;
+
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node;
             if (
