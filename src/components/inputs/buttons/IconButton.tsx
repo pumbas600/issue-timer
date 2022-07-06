@@ -6,6 +6,7 @@ import { IconButtonProps } from './ButtonCommon';
 const IconButton: Component<IconButtonProps> = (props) => {
     return (
         <button
+            title={props.title}
             onClick={props.onClick}
             className={merge(['icon-btn bg-opacity-0', props.className])}
             disabled={props.disabled}

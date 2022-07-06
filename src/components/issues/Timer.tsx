@@ -72,6 +72,7 @@ const Timer: Component<Props> = (props) => {
     return (
         <Stack orientation="row" className="gap-x-2 justify-center">
             <IconButton
+                title="Save the time and description"
                 disabled={ms < 1000}
                 icon={faFileArrowUp}
                 size="lg"
@@ -84,6 +85,7 @@ const Timer: Component<Props> = (props) => {
                 </Stack>
             </OutlinedButton>
             <IconButton
+                title="Reset the timer"
                 disabled={ms < 1000}
                 icon={faArrowRotateLeft}
                 size="lg"

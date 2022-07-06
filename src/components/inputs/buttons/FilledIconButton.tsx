@@ -6,6 +6,7 @@ import { IconButtonProps } from './ButtonCommon';
 const FilledIconButton: Component<IconButtonProps> = (props) => {
     return (
         <button
+            title={props.title}
             className={merge(['filled-icon-btn', props.className])}
             onClick={props.onClick}
             disabled={props.disabled}

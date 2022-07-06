@@ -4,6 +4,7 @@ import { merge, Styles, Variant } from '../../../styles/Styles';
 import { ClassName } from '../../../types/Props';
 
 export interface ButtonProps extends ClassName {
+    title?: string;
     variant?: Variant;
     disabled?: boolean;
     onClick?: VoidFunction;
@@ -15,6 +16,7 @@ export interface IconButtonProps extends ClassName {
     disabled?: boolean;
     onClick?: VoidFunction;
     size?: SizeProp;
+    title?: string;
 }
 
 export function createButton(
@@ -25,6 +27,7 @@ export function createButton(
     const styles = props.variant ? buttonStyler(Styles[props.variant]) : '';
     return (
         <button
+            title={props.title}
             onClick={props.onClick}
             disabled={props.disabled}
             className={merge(['btn', props.className, styles, additionalStyles])}
