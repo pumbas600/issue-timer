@@ -68,7 +68,7 @@ const Login: Component = () => {
 
     return (
         <Container>
-            <div className="mx-auto lg:w-[400px] w-full mt-20">
+            <div className="mx-auto lg:w-[400px] mt-20">
                 <div className="flex justify-center items-baseline my-5">
                     <h4 className="font-bold">Sign in to&nbsp;</h4>
                     <h3 className="text-blue-500">Issue Tracker</h3>
@@ -94,7 +94,7 @@ const Login: Component = () => {
                             <InfoButton
                                 className="text-gray-500"
                                 info={
-                                    <div className="w-[350px] whitespace-normal leading-5">
+                                    <div className="whitespace-normal leading-5 sm:w-[350px] w-[280px] sm:text-base text-sm">
                                         GitHub only allows access to issues in private repositories with the{' '}
                                         <code className="font-semibold">repos</code> scope, which grants full access to
                                         repositories. As this level of access may concern some users, it is opt in.
