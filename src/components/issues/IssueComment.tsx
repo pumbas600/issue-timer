@@ -16,7 +16,9 @@ const IssueComment: FC<Props> = (props) => {
                 <div className="bg-black w-1.5 h-1.5 rounded-full" />
                 <h5>{getDisplayTime(props.comment.ms)}</h5>
             </Stack>
-            {props.comment.description && <div className="leading-5 mb-2">{props.comment.description}</div>}
+            {props.comment.description && (
+                <div className="leading-5 mb-2 whitespace-pre-wrap">{props.comment.description}</div>
+            )}
         </div>
     );
 };
