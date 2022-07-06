@@ -37,28 +37,41 @@ const IssueSelector: Component<Props> = (props) => {
         setSelectedIssue(null);
     }
 
+    function renderDropdown(): ReactNode {
+        if (props.issues.length === 0)
+            return (
+                <div>
+                    {"You currently don't have any issues assigned to you."}
+                    <br />
+                    <div className="font-semibold">Enjoy the break!</div>
+                </div>
+            );
+
+        return (
+            <Label label={<h5>Select Issue</h5>}>
+                <Stack orientation="row" className="gap-x-2 mt-1">
+                    <Dropdown
+                        className="border-gray-300 bg-gray-500"
+                        placeholder="The issue..."
+                        onSelect={(value) => setSelectedIssue(value)}
+                        value={selectedIssue}
+                    >
+                        {generateOptions()}
+                    </Dropdown>
+                    <FilledIconButton
+                        className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-400"
+                        icon={faPlus}
+                        onClick={addIssue}
+                        disabled={selectedIssue === null}
+                    />
+                </Stack>
+            </Label>
+        );
+    }
+
     return (
         <div className="flex justify-center">
-            <Card className="w-full overflow-visible">
-                <Label label={<h5>Select Issue</h5>}>
-                    <Stack orientation="row" className="gap-x-2 mt-1">
-                        <Dropdown
-                            className="border-gray-300 bg-gray-500"
-                            placeholder="The issue..."
-                            onSelect={(value) => setSelectedIssue(value)}
-                            value={selectedIssue}
-                        >
-                            {generateOptions()}
-                        </Dropdown>
-                        <FilledIconButton
-                            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-400"
-                            icon={faPlus}
-                            onClick={addIssue}
-                            disabled={selectedIssue === null}
-                        />
-                    </Stack>
-                </Label>
-            </Card>
+            <Card className="w-full overflow-visible">{renderDropdown()}</Card>
         </div>
     );
 };
