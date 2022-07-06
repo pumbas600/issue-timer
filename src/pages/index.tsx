@@ -42,7 +42,7 @@ const Home: NextPage = () => {
     return (
         <Container>
             <div className="flex flex-row gap-x-10">
-                <Stack className="sm:w-[500px] w-full gap-y-2">
+                <Stack className="sm:w-1/2 w-full gap-y-2">
                     <IssueSelector
                         issues={issues}
                         onAddIssue={(issue) => setTimedIssues((issues) => [...issues, issue])}
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
                         );
                     })}
                 </Stack>
-                <IssueHistory history={savedComments} />
+                <IssueHistory className="w-1/2 sm:flex hidden" history={savedComments} />
             </div>
         </Container>
     );

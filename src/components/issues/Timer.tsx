@@ -72,19 +72,19 @@ const Timer: Component<Props> = (props) => {
     return (
         <Stack orientation="row" className="gap-x-2 justify-center">
             <IconButton
-                disabled={ms === 0}
+                disabled={ms < 1000}
                 icon={faFileArrowUp}
                 size="lg"
                 className="text-blue-500 disabled:text-gray-300 bg-blue-500"
                 onClick={saveTime}
             />
-            <OutlinedButton className={merge(['rounded-xl min-w-[220px] px-2', getStyles()])} onClick={toggleIsPaused}>
+            <OutlinedButton className={merge(['rounded-xl w-[220px] px-2', getStyles()])} onClick={toggleIsPaused}>
                 <Stack orientation="row" className="gap-x-5 justify-center">
                     <h3 className="leading-9">{getDisplayTime(ms)}</h3>
                 </Stack>
             </OutlinedButton>
             <IconButton
-                disabled={ms === 0}
+                disabled={ms < 1000}
                 icon={faArrowRotateLeft}
                 size="lg"
                 className="text-blue-500 disabled:text-gray-300 bg-blue-500"

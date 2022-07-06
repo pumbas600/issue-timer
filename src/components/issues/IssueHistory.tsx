@@ -1,9 +1,11 @@
 import { FC, ReactNode } from 'react';
+import { merge } from '../../styles/Styles';
 import SavedComment from '../../types/models/SavedComment';
+import { ClassName } from '../../types/Props';
 import Stack from '../utility/Stack';
 import IssueComment from './IssueComment';
 
-interface Props {
+interface Props extends ClassName {
     history: SavedComment[];
 }
 
@@ -53,7 +55,7 @@ const IssueHistory: FC<Props> = (props) => {
     }
 
     return (
-        <Stack className="sm:flex hidden">
+        <Stack className={props.className}>
             <h3 className="mb-3 text-blue-500">History</h3>
             {renderHistory()}
         </Stack>
