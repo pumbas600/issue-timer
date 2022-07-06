@@ -12,6 +12,20 @@ interface Props {
     onReset?: (seconds: number) => void;
 }
 
+function padDigits(num: number): string {
+    return num.toString().padStart(2, '0');
+}
+
+export function getDisplayTime(ms: number): string {
+    const hours = Math.floor(ms / 3_600_000);
+    const minutes = Math.floor(ms / 60_000) % 60;
+    const seconds = Math.floor(ms / 1_000) % 60;
+
+    if (hours === 0) {
+        return `${minutes.toString()}:${padDigits(seconds)}`;
+    } else return `${hours.toString()}:${padDigits(minutes)}:${padDigits(seconds)}`;
+}
+
 const Timer: Component<Props> = (props) => {
     const [ms, setMs] = useState(0);
     const [isPaused, setIsPaused] = useState(true);
@@ -38,20 +52,6 @@ const Timer: Component<Props> = (props) => {
         setIsPaused(newIsPaused);
     }
 
-    function padDigits(num: number): string {
-        return num.toString().padStart(2, '0');
-    }
-
-    function getDisplayTime(): string {
-        const hours = Math.floor(ms / 3_600_000);
-        const minutes = Math.floor(ms / 60_000) % 60;
-        const seconds = Math.floor(ms / 1_000) % 60;
-
-        if (hours === 0) {
-            return `${minutes.toString()}:${padDigits(seconds)}`;
-        } else return `${hours.toString()}:${padDigits(minutes)}:${padDigits(seconds)}`;
-    }
-
     function getStyles(): string {
         return isPaused
             ? 'border-emerald-500 hover:border-emerald-600 text-emerald-500 hover:text-emerald-600 bg-emerald-500'
@@ -62,7 +62,7 @@ const Timer: Component<Props> = (props) => {
         <Stack orientation="row" className="gap-x-3">
             <OutlinedButton className={merge(['rounded-xl min-w-[160px] px-2', getStyles()])} onClick={toggleIsPaused}>
                 <Stack orientation="row" className="gap-x-5 justify-center">
-                    <h3 className="leading-9">{getDisplayTime()}</h3>
+                    <h3 className="leading-9">{getDisplayTime(ms)}</h3>
                 </Stack>
             </OutlinedButton>
             {isPaused && ms !== 0 && (

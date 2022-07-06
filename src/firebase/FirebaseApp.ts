@@ -1,8 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-console.log(process.env.NEXT_PUBLIC_API_KEY);
-
 // Initialize Firebase
 const app = initializeApp({
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
