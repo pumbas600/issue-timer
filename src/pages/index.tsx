@@ -6,10 +6,13 @@ import Container from '../components/utility/Container';
 import Stack from '../components/utility/Stack';
 import { useUserContext } from '../login/UserContext';
 import Issue from '../types/models/Github';
+import SavedComment from '../types/models/SavedComment';
+import IssueHistory from '../components/issues/IssueHistory';
 
 const Home: NextPage = () => {
     const [issues, setIssues] = useState<Issue[]>([]);
     const [timedIssues, setTimedIssues] = useState<Issue[]>([]);
+    const [savedComments, setSavedComments] = useState<SavedComment[]>([]);
     const userContext = useUserContext();
 
     useEffect(() => {
@@ -29,18 +32,34 @@ const Home: NextPage = () => {
     }
 
     function deleteIssue(issueToDelete: Issue) {
-        console.log('deleting!');
         setTimedIssues((issues) => issues.filter((issue) => issue.id !== issueToDelete.id));
+    }
+
+    function saveComment(comment: SavedComment) {
+        setSavedComments((comments) => [...comments, comment]);
     }
 
     return (
         <Container>
-            <Stack className="sm:w-[500px] w-full gap-y-2">
-                <IssueSelector issues={issues} onAddIssue={(issue) => setTimedIssues((issues) => [...issues, issue])} />
-                {timedIssues.map((issue) => {
-                    return <IssueTimer key={issue.id} issue={issue} onDelete={() => deleteIssue(issue)} />;
-                })}
-            </Stack>
+            <div className="flex flex-row gap-x-10">
+                <Stack className="sm:w-[500px] w-full gap-y-2">
+                    <IssueSelector
+                        issues={issues}
+                        onAddIssue={(issue) => setTimedIssues((issues) => [...issues, issue])}
+                    />
+                    {timedIssues.map((issue) => {
+                        return (
+                            <IssueTimer
+                                key={issue.id}
+                                issue={issue}
+                                onDelete={() => deleteIssue(issue)}
+                                onSaveComment={(comment) => saveComment(comment)}
+                            />
+                        );
+                    })}
+                </Stack>
+                <IssueHistory history={savedComments} />
+            </div>
         </Container>
     );
 };

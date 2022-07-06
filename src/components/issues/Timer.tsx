@@ -1,19 +1,16 @@
-import { faArrowRotateLeft, faClockRotateLeft, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRotateLeft, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { merge } from '../../styles/Styles';
 import { Component } from '../../types/Utility';
 import IconButton from '../inputs/buttons/IconButton';
 import OutlinedButton from '../inputs/buttons/OutlinedButton';
 import Stack from '../utility/Stack';
-import Tooltip from '../utility/Tooltip';
 
 interface Props {
     ms?: number;
     isPaused?: boolean;
-    onStart?: VoidFunction;
     onTogglePause?: (newIsPaused: boolean, ms: number) => void;
-    onRestart?: (ms: number) => void;
+    onRestart?: (isPaused: boolean, ms: number) => void;
     onSave?: (ms: number) => void;
 }
 
@@ -51,7 +48,7 @@ const Timer: Component<Props> = (props) => {
     }
 
     function restart() {
-        if (props.onRestart) props.onRestart(ms);
+        if (props.onRestart) props.onRestart(isPaused, ms);
         setMs(0);
     }
 

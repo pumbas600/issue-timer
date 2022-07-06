@@ -1,17 +1,18 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { ChangeEvent, FC, ReactNode, useState } from 'react';
 import IssueTimer from '../../types/models/Github';
+import SavedComment from '../../types/models/SavedComment';
 import { capitalise } from '../../utility/Utility';
 import Card from '../cards/Card';
 import CardSeparator from '../cards/CardSeparator';
 import IconButton from '../inputs/buttons/IconButton';
 import Stack from '../utility/Stack';
-import TableRow from '../utility/TableRow';
 import Timer from './Timer';
 
 interface Props {
     issue: IssueTimer;
     onDelete: VoidFunction;
+    onSaveComment: (comment: SavedComment) => void;
 }
 
 export function issueTitle(issue: IssueTimer): ReactNode {
@@ -24,11 +25,35 @@ export function issueTitle(issue: IssueTimer): ReactNode {
 }
 
 const IssueTimer: FC<Props> = (props) => {
-    const [description, setDescription] = useState<string | undefined>(undefined);
+    const [startTime, setStartTime] = useState<Date | null>(null);
+    const [description, setDescription] = useState<string>('');
 
     function handleDescriptionUpdate(e: ChangeEvent<HTMLTextAreaElement>) {
-        if (e.target.value.length === 0) setDescription(undefined);
-        else setDescription(e.target.value);
+        setDescription(e.target.value);
+    }
+
+    function handleTimerTogglePaused(isPaused: boolean) {
+        if (!isPaused && !startTime) setStartTime(new Date());
+    }
+
+    function handleTimerRestarted(isPaused: boolean) {
+        setStartTime(isPaused ? null : new Date());
+    }
+
+    function handlerTimerSave(ms: number) {
+        if (!startTime) return;
+
+        const comment: SavedComment = {
+            issue: props.issue,
+            ms: ms,
+            startTime: startTime,
+            endTime: new Date(),
+            description: description,
+        };
+
+        props.onSaveComment(comment);
+        setStartTime(null);
+        setDescription('');
     }
 
     return (
@@ -39,7 +64,11 @@ const IssueTimer: FC<Props> = (props) => {
                     <IconButton icon={faTrash} className="text-red-500 bg-red-500" onClick={props.onDelete} />
                 </Stack>
                 <CardSeparator />
-                <Timer />
+                <Timer
+                    onTogglePause={(isPaused) => handleTimerTogglePaused(isPaused)}
+                    onRestart={(isPaused) => handleTimerRestarted(isPaused)}
+                    onSave={handlerTimerSave}
+                />
                 <textarea
                     className="w-full border border-gray-300 rounded-md p-1"
                     placeholder="Description of what's being done..."

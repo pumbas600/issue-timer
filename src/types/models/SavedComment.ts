@@ -1,5 +1,7 @@
+import Issue from './Github';
+
 export default interface SavedComment {
-    issueId: number;
+    issue: Issue;
     ms: number;
     startTime: Date;
     endTime: Date;

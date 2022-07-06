@@ -8,14 +8,14 @@ interface Props {
 }
 
 const IssueHistory: FC<Props> = (props) => {
-    function groupHistoryByDay(): Map<Date, SavedComment[]> {
-        const mappedHistory = new Map<Date, SavedComment[]>();
+    function groupHistoryByDay(): Map<number, SavedComment[]> {
+        const mappedHistory = new Map<number, SavedComment[]>();
         props.history.forEach((comment) => {
             const day = new Date(
                 comment.startTime.getUTCFullYear(),
                 comment.startTime.getUTCMonth(),
                 comment.startTime.getUTCDate(),
-            );
+            ).getTime();
             if (!mappedHistory.has(day)) mappedHistory.set(day, []);
             mappedHistory.get(day)?.push(comment);
         });
@@ -25,9 +25,11 @@ const IssueHistory: FC<Props> = (props) => {
 
     function renderDaySeparator(day: Date): ReactNode {
         return (
-            <Stack orientation="row">
-                <p>{day.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-                <hr />
+            <Stack orientation="row" className="gap-x-2">
+                <p className="whitespace-nowrap">
+                    {day.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
+                </p>
+                <hr className="w-full border-gray-300" />
             </Stack>
         );
     }
@@ -39,10 +41,10 @@ const IssueHistory: FC<Props> = (props) => {
         const elements: ReactNode[] = [];
         mappedHistory.forEach((comments, day) => {
             elements.push(
-                <Stack>
-                    {renderDaySeparator(day)}
+                <Stack key={day}>
+                    {renderDaySeparator(new Date(day))}
                     {comments.map((comment) => (
-                        <IssueComment key={comment.issueId} comment={comment} />
+                        <IssueComment key={comment.endTime.getTime()} comment={comment} />
                     ))}
                 </Stack>,
             );
@@ -50,7 +52,12 @@ const IssueHistory: FC<Props> = (props) => {
         return elements;
     }
 
-    return <Stack>{renderHistory()}</Stack>;
+    return (
+        <Stack className="sm:flex hidden">
+            <h3 className="mb-3 text-blue-500">History</h3>
+            {renderHistory()}
+        </Stack>
+    );
 };
 
 export default IssueHistory;

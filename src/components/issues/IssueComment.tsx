@@ -1,5 +1,7 @@
 import { FC } from 'react';
 import IssueComment from '../../types/models/SavedComment';
+import Stack from '../utility/Stack';
+import { issueTitle } from './IssueTimer';
 import { getDisplayTime } from './Timer';
 
 interface Props {
@@ -9,8 +11,12 @@ interface Props {
 const IssueComment: FC<Props> = (props) => {
     return (
         <div>
-            <h5>{getDisplayTime(props.comment.ms)}</h5>
-            {props.comment.description}
+            <Stack orientation="row" className="gap-x-2">
+                <p className="text-sm">{issueTitle(props.comment.issue)}</p>
+                <div className="bg-black w-1.5 h-1.5 rounded-full" />
+                <h5>{getDisplayTime(props.comment.ms)}</h5>
+            </Stack>
+            {props.comment.description && <div className="leading-5 mb-2">{props.comment.description}</div>}
         </div>
     );
 };
