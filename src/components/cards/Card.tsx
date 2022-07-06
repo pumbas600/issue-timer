@@ -1,8 +1,17 @@
+import { CSSProperties, forwardRef } from 'react';
 import { ClassName } from '../../types/Props';
-import { Component } from '../../types/Utility';
+import { ForwardRefComponent } from '../../types/Utility';
 
-const Card: Component<ClassName> = (props) => {
-    return <div className={`card ${props.className ?? ''}`}>{props.children}</div>;
+interface Props extends ClassName {
+    style?: CSSProperties;
+}
+
+const Card: ForwardRefComponent<HTMLDivElement, Props> = (props, ref) => {
+    return (
+        <div ref={ref} className={`card ${props.className ?? ''}`} style={props.style}>
+            {props.children}
+        </div>
+    );
 };
 
-export default Card;
+export default forwardRef(Card);

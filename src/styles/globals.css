@@ -34,6 +34,10 @@
     hr {
         @apply border-gray-300;
     }
+
+    body {
+        @apply overflow-x-hidden;
+    }
 }
 
 @layer components {
