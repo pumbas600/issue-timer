@@ -6,6 +6,7 @@ import { Component } from '../../types/Utility';
 import IconButton from '../inputs/buttons/IconButton';
 import OutlinedButton from '../inputs/buttons/OutlinedButton';
 import Stack from '../utility/Stack';
+import Tooltip from '../utility/Tooltip';
 
 interface Props {
     ms?: number;

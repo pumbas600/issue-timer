@@ -32,7 +32,7 @@ const IssueTimer: FC<Props> = (props) => {
     }
 
     return (
-        <Card>
+        <Card className="overflow-visible">
             <Stack className="gap-y-2">
                 <Stack orientation="row" className="flex-reverse">
                     <h5 className="w-full overflow-hidden">{issueTitle(props.issue)}</h5>
