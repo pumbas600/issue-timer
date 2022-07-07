@@ -1,6 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClassName } from '../../../types/Props';
 import { Component } from '../../../types/Utility';
 
@@ -13,6 +13,10 @@ export interface CheckboxProps extends ClassName {
 
 const Checkbox: Component<CheckboxProps> = (props) => {
     const [checked, setChecked] = useState(props.checked ?? false);
+
+    useEffect(() => {
+        setChecked(props.checked ?? false);
+    }, [props.checked]);
 
     return (
         <div
