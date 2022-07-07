@@ -1,6 +1,8 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCodePullRequest, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleDot } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, FC, ReactNode, useState } from 'react';
-import IssueTimer from '../../types/models/Github';
+import Issue from '../../types/models/Github';
 import SavedComment from '../../types/models/SavedComment';
 import { capitalise } from '../../utility/Utility';
 import Card from '../cards/Card';
@@ -10,14 +12,19 @@ import Stack from '../utility/Stack';
 import Timer from './Timer';
 
 interface Props {
-    issue: IssueTimer;
+    issue: Issue;
     onDelete: VoidFunction;
     onSaveComment: (comment: SavedComment) => void;
 }
 
-export function issueTitle(issue: IssueTimer): ReactNode {
+export function issueTitle(issue: Issue): ReactNode {
     return (
         <Stack orientation="row" className="whitespace-nowrap">
+            <FontAwesomeIcon
+                className="mr-2 text-gray-800"
+                icon={issue.pull_request ? faCodePullRequest : faCircleDot}
+                size="sm"
+            />
             {issue.repository && capitalise(issue.repository?.name) + '/'}
             <div className="font-semibold text-ellipsis whitespace-nowrap overflow-hidden">{issue.title}</div>
         </Stack>
