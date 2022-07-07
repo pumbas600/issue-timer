@@ -1,4 +1,5 @@
-import { faArrowRotateLeft, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateLeft, faFileArrowUp, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { merge } from '../../styles/Styles';
 import { Component } from '../../types/Utility';
@@ -90,8 +91,12 @@ const Timer: Component<Props> = (props) => {
                 onClick={saveTime}
             />
             <OutlinedButton className={merge(['rounded-xl w-[220px] px-2', getStyles()])} onClick={toggleIsPaused}>
-                <Stack orientation="row" className="gap-x-5 justify-center">
-                    <h3 className="leading-9">{getDisplayTime(ms)}</h3>
+                <Stack orientation="row" className="gap-x-5 justify-center h-9">
+                    {ms === 0 ? (
+                        <FontAwesomeIcon icon={faPlay} size="lg" />
+                    ) : (
+                        <h3 className="leading-9">{getDisplayTime(ms)}</h3>
+                    )}
                 </Stack>
             </OutlinedButton>
             <IconButton
