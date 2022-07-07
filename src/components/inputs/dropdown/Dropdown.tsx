@@ -58,7 +58,7 @@ const Dropdown: Component<Props> = (props) => {
                     <FontAwesomeIcon icon={showOptions ? faCaretDown : faCaretLeft} size="lg" />
                 </OutlinedButton>
                 {showOptions && (
-                    <Stack className="top-10 absolute w-full rounded-lg border border-gray-300 bg-white text-left overflow-x-hidden gap-y-0.5 ">
+                    <Stack className="top-10 absolute w-full rounded-lg border border-gray-300 bg-white text-left overflow-x-hidden gap-y-0.5 max-h-[300px]">
                         {children()}
                     </Stack>
                 )}
