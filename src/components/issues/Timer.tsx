@@ -90,14 +90,15 @@ const Timer: Component<Props> = (props) => {
                 className="text-blue-500 disabled:text-gray-300 bg-blue-500"
                 onClick={saveTime}
             />
-            <OutlinedButton className={merge(['rounded-xl w-[220px] px-2', getStyles()])} onClick={toggleIsPaused}>
-                <Stack orientation="row" className="gap-x-5 justify-center h-9">
-                    {ms === 0 ? (
-                        <FontAwesomeIcon icon={faPlay} size="lg" />
-                    ) : (
-                        <h3 className="leading-9">{getDisplayTime(ms)}</h3>
-                    )}
-                </Stack>
+            <OutlinedButton
+                className={merge(['rounded-xl w-[220px] px-2 flex justify-center h-9', getStyles()])}
+                onClick={toggleIsPaused}
+            >
+                {ms === 0 && isPaused ? (
+                    <FontAwesomeIcon icon={faPlay} size="lg" />
+                ) : (
+                    <h3 className="leading-9 sm:text-3xl text-2xl">{getDisplayTime(ms)}</h3>
+                )}
             </OutlinedButton>
             <IconButton
                 title="Reset the timer"
