@@ -31,25 +31,29 @@ export function getDisplayTime(ms: number): string {
 const Timer: Component<Props> = (props) => {
     const [ms, setMs] = useState(props.ms ?? 0);
     const [isPaused, setIsPaused] = useState(props.isPaused ?? true);
+    const [baselineMs, setBaselineMs] = useState(0);
+    const [lastUnpaused, setLastUnpaused] = useState(new Date());
 
     const redStyles = 'border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500';
 
     useEffect(() => {
         if (!isPaused) {
-            const interval = setInterval(() => setMs((ms) => ms + 10), 10);
+            const interval = setInterval(() => setMs(Date.now() - lastUnpaused.getTime() + baselineMs), 100);
             return () => clearInterval(interval);
         }
-        return () => {};
-    }, [isPaused]);
+    }, [isPaused, baselineMs, lastUnpaused]);
 
     function reset() {
         setMs(0);
+        setBaselineMs(0);
         setIsPaused(true);
     }
 
     function restart() {
         if (props.onRestart) props.onRestart(isPaused, ms);
         setMs(0);
+        setBaselineMs(0);
+        if (!isPaused) setLastUnpaused(new Date());
     }
 
     function saveTime() {
@@ -60,7 +64,13 @@ const Timer: Component<Props> = (props) => {
     function toggleIsPaused() {
         const newIsPaused = !isPaused;
         if (props.onTogglePause) props.onTogglePause(newIsPaused, ms);
+
         setIsPaused(newIsPaused);
+        if (!newIsPaused) {
+            setLastUnpaused(new Date());
+        } else {
+            setBaselineMs(Date.now() - lastUnpaused.getTime() + baselineMs);
+        }
     }
 
     function getStyles(): string {
