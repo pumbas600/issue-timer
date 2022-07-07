@@ -36,6 +36,8 @@ const Timer: Component<Props> = (props) => {
     const [lastUnpaused, setLastUnpaused] = useState(new Date());
 
     const redStyles = 'border-red-500 hover:border-red-600 text-red-500 hover:text-red-600 bg-red-500';
+    const greenStyles =
+        'border-emerald-500 hover:border-emerald-600 text-emerald-500 hover:text-emerald-600 bg-emerald-500';
 
     useEffect(() => {
         if (!isPaused) {
@@ -75,9 +77,7 @@ const Timer: Component<Props> = (props) => {
     }
 
     function getStyles(): string {
-        return isPaused
-            ? 'border-emerald-500 hover:border-emerald-600 text-emerald-500 hover:text-emerald-600 bg-emerald-500'
-            : redStyles;
+        return isPaused ? greenStyles : redStyles;
     }
 
     return (
@@ -91,13 +91,16 @@ const Timer: Component<Props> = (props) => {
                 onClick={saveTime}
             />
             <OutlinedButton
-                className={merge(['rounded-xl w-[220px] px-2 flex justify-center h-9', getStyles()])}
+                className={merge([
+                    'group rounded-xl w-[220px] px-2 flex justify-center items-center h-10',
+                    getStyles(),
+                ])}
                 onClick={toggleIsPaused}
             >
                 {ms === 0 && isPaused ? (
                     <FontAwesomeIcon icon={faPlay} size="lg" />
                 ) : (
-                    <h3 className="leading-9 sm:text-3xl text-2xl">{getDisplayTime(ms)}</h3>
+                    <div className="sm:leading-7 sm:text-3xl text-2xl font-semibold">{getDisplayTime(ms)}</div>
                 )}
             </OutlinedButton>
             <IconButton
