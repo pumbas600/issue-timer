@@ -29,40 +29,13 @@ const IssueSelector: Component<Props> = (props) => {
     const [filters, setFilers] = useState<Filters>({ issues: true, pullRequests: true });
 
     function generateOptions(filteredIssues: Issue[]): ReactNode {
-        if (!filters.issues && !filters.pullRequests) {
-            return (
-                <div>
-                    {"Don't feel like doing anything?"}
-                    <br />
-                    <div className="font-semibold">No worries, take a break.</div>
-                </div>
-            );
-        }
-
-        const options = filteredIssues.map((issue) => {
+        return filteredIssues.map((issue) => {
             return (
                 <Option key={issue.id} value={issue.id.toString()}>
                     {issueTitle(issue)}
                 </Option>
             );
         });
-
-        if (options.length !== 0) return options;
-
-        let selectedNames: string;
-        if (filters.issues && filters.pullRequests) {
-            selectedNames = 'issues/PRs';
-        } else if (filters.issues) {
-            selectedNames = 'issues';
-        } else selectedNames = 'PRs';
-
-        return (
-            <div>
-                {`You currently don't have any ${selectedNames} assigned to you.`}
-                <br />
-                <div className="font-semibold">Enjoy the break!</div>
-            </div>
-        );
     }
 
     function addIssue() {
@@ -74,13 +47,42 @@ const IssueSelector: Component<Props> = (props) => {
     }
 
     function renderDropdown(): ReactNode {
-        const filteredIssues = props.issues.filter((issue) => {
+        if (!filters.issues && !filters.pullRequests) {
             return (
-                (filters.issues && filters.pullRequests) ||
-                (!filters.issues && issue.pull_request) ||
-                (!filters.pullRequests && !issue.pull_request)
+                <div>
+                    {"Don't feel like doing anything?"}
+                    <br />
+                    <div className="font-semibold">No worries, take a break.</div>
+                </div>
             );
-        });
+        }
+
+        let filteredIssues: Issue[];
+        if (filters.issues && filters.pullRequests) filteredIssues = props.issues;
+        else
+            filteredIssues = props.issues.filter(
+                (issue) =>
+                    (filters.issues && filters.pullRequests) ||
+                    (!filters.issues && issue.pull_request) ||
+                    (!filters.pullRequests && !issue.pull_request),
+            );
+
+        if (filteredIssues.length === 0) {
+            let selectedNames: string;
+            if (filters.issues && filters.pullRequests) {
+                selectedNames = 'issues/PRs';
+            } else if (filters.issues) {
+                selectedNames = 'issues';
+            } else selectedNames = 'PRs';
+
+            return (
+                <div>
+                    {`You currently don't have any ${selectedNames} assigned to you.`}
+                    <br />
+                    <div className="font-semibold">Enjoy the break!</div>
+                </div>
+            );
+        }
 
         return (
             <Stack orientation="row" className="gap-x-2 mt-1">
