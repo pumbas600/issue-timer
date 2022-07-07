@@ -40,6 +40,14 @@ export interface Repository {
     open_issues: number;
 }
 
+export interface PullRequest {
+    merged_at?: string | null;
+    diff_url: string | null;
+    html_url: string | null;
+    patch_url: string | null;
+    url: string | null;
+}
+
 export default interface Issue {
     id: number;
     url: string;
@@ -57,4 +65,5 @@ export default interface Issue {
     created_at: string;
     updated_at: string;
     repository?: Repository;
+    pull_request?: PullRequest;
 }
