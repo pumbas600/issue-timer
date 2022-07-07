@@ -58,7 +58,7 @@
     }
 
     .card-separator {
-        @apply -mx-6 my-0.5;
+        @apply sm:-mx-6 -mx-4 my-0.5;
     }
 
     .border-highlight {
