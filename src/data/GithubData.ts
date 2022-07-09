@@ -28,9 +28,9 @@ async function fetchAllIssues(octokit: Octokit): Promise<Issue[]> {
     try {
         const res = await octokit.request('GET /issues');
         res.data.forEach((issue) => {
-            if (issue.repository && issue.repository.owner.name) {
+            if (issue.repository) {
                 ISSUE_CACHE.set(
-                    { owner: issue.repository.owner.name, repo: issue.repository.name, id: issue.id },
+                    { owner: issue.repository.owner.login, repo: issue.repository.name, id: issue.id },
                     issue,
                 );
             }
@@ -42,3 +42,17 @@ async function fetchAllIssues(octokit: Octokit): Promise<Issue[]> {
 
     return [];
 }
+
+function getAllIssues(): Issue[] {
+    return Array.from(ISSUE_CACHE.values());
+}
+
+async function getAllIssuesOrFetch(octokit: Octokit): Promise<Issue[]> {
+    const cachedIssues = getAllIssues();
+    if (cachedIssues.length !== 0) {
+        return cachedIssues;
+    }
+    return await fetchAllIssues(octokit);
+}
+
+export { getIssueOrFetch, fetchAllIssues, getAllIssues, getAllIssuesOrFetch };
