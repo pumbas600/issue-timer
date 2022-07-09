@@ -3,7 +3,7 @@ import { faCircleDot } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ChangeEvent, FC, ReactNode, useState } from 'react';
 import Issue from '../../types/models/Github';
-import SavedComment from '../../types/models/SavedComment';
+import { SavedTime } from '../../types/models/SavedTime';
 import { capitalise } from '../../utility/Utility';
 import Card from '../cards/Card';
 import CardSeparator from '../cards/CardSeparator';
@@ -14,7 +14,7 @@ import Timer from './Timer';
 interface Props {
     issue: Issue;
     onDelete: VoidFunction;
-    onSaveComment: (comment: SavedComment) => void;
+    onSaveTime: (savedTime: SavedTime) => void;
 }
 
 export function issueTitle(issue: Issue): ReactNode {
@@ -50,7 +50,7 @@ const IssueTimer: FC<Props> = (props) => {
     function handlerTimerSave(ms: number) {
         if (!startTime) return;
 
-        const comment: SavedComment = {
+        const comment: SavedTime = {
             issue: props.issue,
             ms: ms,
             startTime: startTime,
@@ -58,7 +58,7 @@ const IssueTimer: FC<Props> = (props) => {
             description: description,
         };
 
-        props.onSaveComment(comment);
+        props.onSaveTime(comment);
         setStartTime(null);
         setDescription('');
     }
