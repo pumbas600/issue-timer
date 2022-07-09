@@ -1,9 +1,11 @@
 import Issue from './Github';
 
-export default interface SavedComment {
+interface SavedTime {
     issue: Issue;
     ms: number;
     startTime: Date;
     endTime: Date;
     description?: string;
 }
+
+export type { SavedTime };

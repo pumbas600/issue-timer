@@ -1,16 +1,16 @@
 import { FC, ReactNode } from 'react';
-import SavedComment from '../../types/models/SavedComment';
+import { SavedTime } from '../../types/models/SavedTime';
 import { ClassName } from '../../types/Props';
 import Stack from '../utility/Stack';
-import IssueComment from './IssueComment';
+import SavedIssueTime from './SavedIssueTime';
 
 interface Props extends ClassName {
-    history: SavedComment[];
+    history: SavedTime[];
 }
 
 const IssueHistory: FC<Props> = (props) => {
-    function groupHistoryByDay(): Map<number, SavedComment[]> {
-        const mappedHistory = new Map<number, SavedComment[]>();
+    function groupHistoryByDay(): Map<number, SavedTime[]> {
+        const mappedHistory = new Map<number, SavedTime[]>();
         props.history.forEach((comment) => {
             const day = new Date(
                 comment.startTime.getUTCFullYear(),
@@ -45,7 +45,7 @@ const IssueHistory: FC<Props> = (props) => {
                 <Stack key={day}>
                     {renderDaySeparator(new Date(day))}
                     {comments.map((comment) => (
-                        <IssueComment key={comment.endTime.getTime()} comment={comment} />
+                        <SavedIssueTime key={comment.endTime.getTime()} savedTime={comment} />
                     ))}
                 </Stack>,
             );

@@ -7,10 +7,8 @@ import { first } from '../../utility/Utility';
 import Card from '../cards/Card';
 import FilledIconButton from '../inputs/buttons/FilledIconButton';
 import IconButton from '../inputs/buttons/IconButton';
-import Checkbox from '../inputs/checkbox/Checkbox';
 import Dropdown from '../inputs/dropdown/Dropdown';
 import Option from '../inputs/dropdown/Option';
-import Label from '../inputs/Label';
 import Stack from '../utility/Stack';
 import { issueTitle } from './IssueTimer';
 

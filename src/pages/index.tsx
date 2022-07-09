@@ -6,13 +6,13 @@ import Container from '../components/utility/Container';
 import Stack from '../components/utility/Stack';
 import { useUserContext } from '../login/UserContext';
 import Issue from '../types/models/Github';
-import SavedComment from '../types/models/SavedComment';
+import { SavedTime } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
 
 const Home: NextPage = () => {
     const [issues, setIssues] = useState<Issue[]>([]);
     const [timedIssues, setTimedIssues] = useState<Issue[]>([]);
-    const [savedComments, setSavedComments] = useState<SavedComment[]>([]);
+    const [savedTimes, setSavedTimes] = useState<SavedTime[]>([]);
     const userContext = useUserContext();
 
     useEffect(() => {
@@ -35,8 +35,8 @@ const Home: NextPage = () => {
         setTimedIssues((issues) => issues.filter((issue) => issue.id !== issueToDelete.id));
     }
 
-    function saveComment(comment: SavedComment) {
-        setSavedComments((comments) => [...comments, comment]);
+    function saveTime(comment: SavedTime) {
+        setSavedTimes((comments) => [...comments, comment]);
     }
 
     return (
@@ -53,12 +53,12 @@ const Home: NextPage = () => {
                                 key={issue.id}
                                 issue={issue}
                                 onDelete={() => deleteIssue(issue)}
-                                onSaveComment={(comment) => saveComment(comment)}
+                                onSaveTime={(comment) => saveTime(comment)}
                             />
                         );
                     })}
                 </Stack>
-                <IssueHistory className="w-1/2 sm:flex hidden" history={savedComments} />
+                <IssueHistory className="w-1/2 sm:flex hidden" history={savedTimes} />
             </div>
         </Container>
     );
