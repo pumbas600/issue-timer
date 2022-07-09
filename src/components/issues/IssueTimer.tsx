@@ -10,6 +10,7 @@ import CardSeparator from '../cards/CardSeparator';
 import IconButton from '../inputs/buttons/IconButton';
 import Stack from '../utility/Stack';
 import Timer from './Timer';
+import { randomUUID } from 'crypto';
 
 interface Props {
     issue: Issue;
@@ -51,6 +52,7 @@ const IssueTimer: FC<Props> = (props) => {
         if (!startTime) return;
 
         const comment: SavedTime = {
+            id: '', // TODO: Set id
             issue: props.issue,
             ms: ms,
             startTime: startTime,

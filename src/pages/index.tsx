@@ -8,6 +8,10 @@ import { useUserContext } from '../login/UserContext';
 import Issue from '../types/models/Github';
 import { SavedTime } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
+import { db } from '../firebase/FirebaseApp';
+import { collection } from 'firebase/firestore';
+
+const savedTimesCollection = collection(db, 'savedtimes');
 
 const Home: NextPage = () => {
     const [issues, setIssues] = useState<Issue[]>([]);
