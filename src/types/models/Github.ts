@@ -67,3 +67,9 @@ export default interface Issue {
     repository?: Repository;
     pull_request?: PullRequest;
 }
+
+export interface IssueIdentifier {
+    owner: string;
+    repo: string;
+    id: number;
+}
