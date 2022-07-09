@@ -10,6 +10,7 @@ import { SavedTime } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
 import { db } from '../firebase/FirebaseApp';
 import { collection } from 'firebase/firestore';
+import { getAllIssuesOrFetch } from '../data/GithubData';
 
 const savedTimesCollection = collection(db, 'savedtimes');
 
@@ -20,20 +21,9 @@ const Home: NextPage = () => {
     const userContext = useUserContext();
 
     useEffect(() => {
-        getIssues();
+        getAllIssuesOrFetch(userContext.octokit!).then(setIssues);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    async function getIssues() {
-        try {
-            const res = await userContext.octokit?.request('GET /issues', {});
-            if (res) {
-                setIssues(res.data);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     function deleteIssue(issueToDelete: Issue) {
         setTimedIssues((issues) => issues.filter((issue) => issue.id !== issueToDelete.id));
