@@ -44,9 +44,11 @@ const IssueHistory: FC<Props> = (props) => {
             elements.push(
                 <Stack key={day}>
                     {renderDaySeparator(new Date(day))}
-                    {savedTimes.map((savedTime) => (
-                        <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
-                    ))}
+                    {savedTimes
+                        .sort((a, b) => a.startTime.getTime() - b.startTime.getTime())
+                        .map((savedTime) => (
+                            <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
+                        ))}
                 </Stack>,
             );
         });
