@@ -40,18 +40,20 @@ const IssueHistory: FC<Props> = (props) => {
         const mappedHistory = groupHistoryByDay();
 
         const elements: ReactNode[] = [];
-        mappedHistory.forEach((savedTimes, day) => {
-            elements.push(
-                <Stack key={day}>
-                    {renderDaySeparator(new Date(day))}
-                    {savedTimes
-                        .sort((a, b) => a.startTime.getTime() - b.startTime.getTime())
-                        .map((savedTime) => (
-                            <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
-                        ))}
-                </Stack>,
-            );
-        });
+        Array.from(mappedHistory.entries())
+            .sort(([dayA], [dayB]) => dayB - dayA)
+            .forEach(([day, savedTimes]) => {
+                elements.push(
+                    <Stack key={day}>
+                        {renderDaySeparator(new Date(day))}
+                        {savedTimes
+                            .sort((a, b) => b.startTime.getTime() - a.startTime.getTime()) // Make the most recent one first
+                            .map((savedTime) => (
+                                <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
+                            ))}
+                    </Stack>,
+                );
+            });
         return elements;
     }
 

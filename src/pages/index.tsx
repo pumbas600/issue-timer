@@ -9,7 +9,7 @@ import Issue from '../types/models/Github';
 import { SavedTime, SavedTimeNoId } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
 import { db } from '../firebase/FirebaseApp';
-import { addDoc, collection, getDocs, where, query } from 'firebase/firestore';
+import { addDoc, collection, getDocs, where, query, orderBy, limit } from 'firebase/firestore';
 import { getAllIssuesOrFetch } from '../data/GithubData';
 
 const savedTimesRef = collection(db, 'savedtimes');
@@ -27,7 +27,9 @@ const Home: NextPage = () => {
     }, []);
 
     function fetchIssueHistory() {
-        getDocs(query(savedTimesRef, where('uid', '==', userContext.user?.uid)))
+        getDocs(
+            query(savedTimesRef, where('uid', '==', userContext.user?.uid), orderBy('startTime', 'desc'), limit(30)),
+        )
             .then((snapshots) => {
                 const savedTimes = snapshots.docs.map((snapshot) => {
                     const data = snapshot.data();
@@ -49,7 +51,8 @@ const Home: NextPage = () => {
 
     function saveTime(savedTime: SavedTimeNoId) {
         addDoc(savedTimesRef, savedTime).then((res) => {
-            setSavedTimes((savedTimes) => [...savedTimes, { ...savedTime, id: res.id }]);
+            const newSavedTime = { ...savedTime, id: res.id };
+            setSavedTimes((savedTimes) => [newSavedTime, ...savedTimes]);
         });
     }
 
