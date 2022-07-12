@@ -9,7 +9,7 @@ import Issue from '../types/models/Github';
 import { SavedTime, SavedTimeNoId } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
 import { db } from '../firebase/FirebaseApp';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, where, query } from 'firebase/firestore';
 import { getAllIssuesOrFetch } from '../data/GithubData';
 
 const savedTimesRef = collection(db, 'savedtimes');
@@ -27,18 +27,20 @@ const Home: NextPage = () => {
     }, []);
 
     function fetchIssueHistory() {
-        getDocs(savedTimesRef).then((snapshots) => {
-            const savedTimes = snapshots.docs.map((snapshot) => {
-                const data = snapshot.data();
-                return {
-                    ...data,
-                    startTime: data.startTime.toDate(),
-                    endTime: data.endTime.toDate(),
-                    id: snapshot.id,
-                } as SavedTime;
-            });
-            setSavedTimes(savedTimes);
-        });
+        getDocs(query(savedTimesRef, where('uid', '==', userContext.user?.uid)))
+            .then((snapshots) => {
+                const savedTimes = snapshots.docs.map((snapshot) => {
+                    const data = snapshot.data();
+                    return {
+                        ...data,
+                        startTime: data.startTime.toDate(),
+                        endTime: data.endTime.toDate(),
+                        id: snapshot.id,
+                    } as SavedTime;
+                });
+                setSavedTimes(savedTimes);
+            })
+            .catch(console.log);
     }
 
     function deleteIssue(issueToDelete: Issue) {
