@@ -7,7 +7,7 @@ interface SavedTime {
     issueId: number;
     repoName?: string;
     ownerName?: string;
-    issueTitle?: string;
+    issueTitle: string;
     isPR: boolean;
 }
 

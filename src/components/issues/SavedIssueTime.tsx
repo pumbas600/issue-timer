@@ -19,7 +19,7 @@ const SavedIssueTime: FC<Props> = (props) => {
                 <h5>{getDisplayTime(props.savedTime.ms)}</h5>
             </Stack>
             {props.savedTime.description && (
-                <div className="leading-5 mb-2 whitespace-pre-wrap">{props.savedTime.description}</div>
+                <div className="text-sm leading-4 ml-5 whitespace-pre-wrap">{props.savedTime.description}</div>
             )}
         </div>
     );
