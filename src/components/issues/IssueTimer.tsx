@@ -10,6 +10,7 @@ import CardSeparator from '../cards/CardSeparator';
 import IconButton from '../inputs/buttons/IconButton';
 import Stack from '../utility/Stack';
 import Timer from './Timer';
+import { useUserContext } from '../../login/UserContext';
 
 interface Props {
     issue: Issue;
@@ -34,6 +35,7 @@ export function issueTitle(issueTitle: string, isPR: boolean, repositoryName?: s
 const IssueTimer: FC<Props> = (props) => {
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [description, setDescription] = useState<string>('');
+    const userContext = useUserContext();
 
     function handleDescriptionUpdate(e: ChangeEvent<HTMLTextAreaElement>) {
         setDescription(e.target.value);
@@ -48,9 +50,10 @@ const IssueTimer: FC<Props> = (props) => {
     }
 
     function handlerTimerSave(ms: number) {
-        if (!startTime) return;
+        if (!startTime || !userContext.user) return;
 
         const comment: SavedTimeNoId = {
+            uid: userContext.user.uid,
             ms: ms,
             startTime: startTime,
             endTime: new Date(),

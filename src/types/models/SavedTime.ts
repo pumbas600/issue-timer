@@ -1,4 +1,5 @@
 interface SavedTime {
+    uid: string;
     id: string;
     ms: number;
     startTime: Date;
