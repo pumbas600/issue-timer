@@ -27,7 +27,7 @@ const IssueHistory: FC<Props> = (props) => {
     function renderDaySeparator(day: Date): ReactNode {
         return (
             <Stack orientation="row" className="gap-x-2">
-                <p className="whitespace-nowrap">
+                <p className="whitespace-nowrap font-semibold">
                     {day.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>
                 <hr className="w-full border-gray-300" />

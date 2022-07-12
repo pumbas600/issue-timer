@@ -59,10 +59,10 @@ const Home: NextPage = () => {
                         issues={issues}
                         onAddIssue={(issue) => setTimedIssues((issues) => [...issues, issue])}
                     />
-                    {timedIssues.map((issue) => {
+                    {timedIssues.map((issue, index) => {
                         return (
                             <IssueTimer
-                                key={issue.id}
+                                key={index}
                                 issue={issue}
                                 onDelete={() => deleteIssue(issue)}
                                 onSaveTime={(savedTime) => saveTime(savedTime)}
