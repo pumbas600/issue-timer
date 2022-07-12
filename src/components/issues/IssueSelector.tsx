@@ -10,7 +10,7 @@ import IconButton from '../inputs/buttons/IconButton';
 import Dropdown from '../inputs/dropdown/Dropdown';
 import Option from '../inputs/dropdown/Option';
 import Stack from '../utility/Stack';
-import { issueTitle } from './IssueTimer';
+import { issueTitleFromIssue } from './IssueTimer';
 
 interface Props {
     issues: Issue[];
@@ -30,7 +30,7 @@ const IssueSelector: Component<Props> = (props) => {
         return filteredIssues.map((issue) => {
             return (
                 <Option key={issue.id} value={issue.id.toString()}>
-                    {issueTitle(issue)}
+                    {issueTitleFromIssue(issue)}
                 </Option>
             );
         });

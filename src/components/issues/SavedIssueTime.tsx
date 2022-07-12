@@ -12,7 +12,9 @@ const SavedIssueTime: FC<Props> = (props) => {
     return (
         <div>
             <Stack orientation="row" className="gap-x-2">
-                <div className="text-sm">{issueTitle(props.savedTime.issue)}</div>
+                <div className="text-sm">
+                    {issueTitle(props.savedTime.issueTitle, props.savedTime.isPR, props.savedTime.repoName)}
+                </div>
                 <div className="bg-black w-1.5 h-1.5 rounded-full" />
                 <h5>{getDisplayTime(props.savedTime.ms)}</h5>
             </Stack>
