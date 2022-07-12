@@ -9,7 +9,7 @@ import Issue from '../types/models/Github';
 import { SavedTime, SavedTimeNoId } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
 import { db } from '../firebase/FirebaseApp';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { getAllIssuesOrFetch } from '../data/GithubData';
 
 const savedTimesRef = collection(db, 'savedtimes');
@@ -22,8 +22,24 @@ const Home: NextPage = () => {
 
     useEffect(() => {
         getAllIssuesOrFetch(userContext.octokit!).then(setIssues);
+        fetchIssueHistory();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    function fetchIssueHistory() {
+        getDocs(savedTimesRef).then((snapshots) => {
+            const savedTimes = snapshots.docs.map((snapshot) => {
+                const data = snapshot.data();
+                return {
+                    ...data,
+                    startTime: data.startTime.toDate(),
+                    endTime: data.endTime.toDate(),
+                    id: snapshot.id,
+                } as SavedTime;
+            });
+            setSavedTimes(savedTimes);
+        });
+    }
 
     function deleteIssue(issueToDelete: Issue) {
         setTimedIssues((issues) => issues.filter((issue) => issue.id !== issueToDelete.id));
