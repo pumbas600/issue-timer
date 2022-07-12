@@ -11,14 +11,14 @@ interface Props extends ClassName {
 const IssueHistory: FC<Props> = (props) => {
     function groupHistoryByDay(): Map<number, SavedTime[]> {
         const mappedHistory = new Map<number, SavedTime[]>();
-        props.history.forEach((comment) => {
+        props.history.forEach((savedTime) => {
             const day = new Date(
-                comment.startTime.getUTCFullYear(),
-                comment.startTime.getUTCMonth(),
-                comment.startTime.getUTCDate(),
+                savedTime.startTime.getUTCFullYear(),
+                savedTime.startTime.getUTCMonth(),
+                savedTime.startTime.getUTCDate(),
             ).getTime();
             if (!mappedHistory.has(day)) mappedHistory.set(day, []);
-            mappedHistory.get(day)?.push(comment);
+            mappedHistory.get(day)?.push(savedTime);
         });
 
         return mappedHistory;
@@ -40,12 +40,12 @@ const IssueHistory: FC<Props> = (props) => {
         const mappedHistory = groupHistoryByDay();
 
         const elements: ReactNode[] = [];
-        mappedHistory.forEach((comments, day) => {
+        mappedHistory.forEach((savedTimes, day) => {
             elements.push(
                 <Stack key={day}>
                     {renderDaySeparator(new Date(day))}
-                    {comments.map((comment) => (
-                        <SavedIssueTime key={comment.endTime.getTime()} savedTime={comment} />
+                    {savedTimes.map((savedTime) => (
+                        <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
                     ))}
                 </Stack>,
             );

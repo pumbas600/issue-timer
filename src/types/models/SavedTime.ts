@@ -1,19 +1,16 @@
-import Issue from './Github';
-
-interface BaseSavedTime {
+interface SavedTime {
     id: string;
     ms: number;
     startTime: Date;
     endTime: Date;
     description?: string;
-}
-
-interface SavedTime extends BaseSavedTime {
-    issue: Issue;
-}
-
-interface FirebaseSavedTime extends BaseSavedTime {
     issueId: number;
+    repoName?: string;
+    ownerName?: string;
+    issueTitle?: string;
+    isPR: boolean;
 }
 
-export type { SavedTime, FirebaseSavedTime };
+type SavedTimeNoId = Omit<SavedTime, 'id'>;
+
+export type { SavedTime, SavedTimeNoId };

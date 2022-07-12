@@ -6,13 +6,13 @@ import Container from '../components/utility/Container';
 import Stack from '../components/utility/Stack';
 import { useUserContext } from '../login/UserContext';
 import Issue from '../types/models/Github';
-import { SavedTime } from '../types/models/SavedTime';
+import { SavedTime, SavedTimeNoId } from '../types/models/SavedTime';
 import IssueHistory from '../components/issues/IssueHistory';
 import { db } from '../firebase/FirebaseApp';
-import { collection } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import { getAllIssuesOrFetch } from '../data/GithubData';
 
-const savedTimesCollection = collection(db, 'savedtimes');
+const savedTimesRef = collection(db, 'savedtimes');
 
 const Home: NextPage = () => {
     const [issues, setIssues] = useState<Issue[]>([]);
@@ -29,8 +29,10 @@ const Home: NextPage = () => {
         setTimedIssues((issues) => issues.filter((issue) => issue.id !== issueToDelete.id));
     }
 
-    function saveTime(comment: SavedTime) {
-        setSavedTimes((comments) => [...comments, comment]);
+    function saveTime(savedTime: SavedTimeNoId) {
+        addDoc(savedTimesRef, savedTime).then((res) => {
+            setSavedTimes((savedTimes) => [...savedTimes, { ...savedTime, id: res.id }]);
+        });
     }
 
     return (
@@ -47,7 +49,7 @@ const Home: NextPage = () => {
                                 key={issue.id}
                                 issue={issue}
                                 onDelete={() => deleteIssue(issue)}
-                                onSaveTime={(comment) => saveTime(comment)}
+                                onSaveTime={(savedTime) => saveTime(savedTime)}
                             />
                         );
                     })}
