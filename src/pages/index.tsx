@@ -11,13 +11,14 @@ import IssueHistory from '../components/issues/IssueHistory';
 import { db } from '../firebase/FirebaseApp';
 import { addDoc, collection, getDocs, where, query, orderBy, limit } from 'firebase/firestore';
 import { getAllIssuesOrFetch } from '../data/GithubData';
+import useHistoryList from '../hooks/useHistoryList';
 
 const savedTimesRef = collection(db, 'savedtimes');
 
 const Home: NextPage = () => {
     const [issues, setIssues] = useState<Issue[]>([]);
     const [timedIssues, setTimedIssues] = useState<Issue[]>([]);
-    const [savedTimes, setSavedTimes] = useState<SavedTime[]>([]);
+    const history = useHistoryList<SavedTime>((savedTime) => savedTime.startTime);
     const userContext = useUserContext();
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const Home: NextPage = () => {
                         id: snapshot.id,
                     } as SavedTime;
                 });
-                setSavedTimes(savedTimes);
+                history.addAll(savedTimes);
             })
             .catch(console.log);
     }
@@ -52,7 +53,7 @@ const Home: NextPage = () => {
     function saveTime(savedTime: SavedTimeNoId) {
         addDoc(savedTimesRef, savedTime).then((res) => {
             const newSavedTime = { ...savedTime, id: res.id };
-            setSavedTimes((savedTimes) => [newSavedTime, ...savedTimes]);
+            history.add(newSavedTime);
         });
     }
 
@@ -75,7 +76,7 @@ const Home: NextPage = () => {
                         );
                     })}
                 </Stack>
-                <IssueHistory className="w-1/2 sm:flex hidden" history={savedTimes} />
+                <IssueHistory className="w-1/2 sm:flex hidden" history={history} />
             </div>
         </Container>
     );
