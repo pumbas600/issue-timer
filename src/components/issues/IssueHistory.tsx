@@ -1,29 +1,15 @@
 import { FC, ReactNode } from 'react';
+import { HistoryList } from '../../hooks/useHistoryList';
 import { SavedTime } from '../../types/models/SavedTime';
 import { ClassName } from '../../types/Props';
 import Stack from '../utility/Stack';
 import SavedIssueTime from './SavedIssueTime';
 
 interface Props extends ClassName {
-    history: SavedTime[];
+    history: HistoryList<SavedTime>;
 }
 
 const IssueHistory: FC<Props> = (props) => {
-    function groupHistoryByDay(): Map<number, SavedTime[]> {
-        const mappedHistory = new Map<number, SavedTime[]>();
-        props.history.forEach((savedTime) => {
-            const day = new Date(
-                savedTime.startTime.getUTCFullYear(),
-                savedTime.startTime.getUTCMonth(),
-                savedTime.startTime.getUTCDate(),
-            ).getTime();
-            if (!mappedHistory.has(day)) mappedHistory.set(day, []);
-            mappedHistory.get(day)?.push(savedTime);
-        });
-
-        return mappedHistory;
-    }
-
     function renderDaySeparator(day: Date): ReactNode {
         return (
             <Stack orientation="row" className="gap-x-2">
@@ -36,25 +22,18 @@ const IssueHistory: FC<Props> = (props) => {
     }
 
     function renderHistory(): ReactNode[] {
-        if (props.history.length === 0) return [];
-        const mappedHistory = groupHistoryByDay();
+        if (props.history.size() === 0) return [];
 
-        const elements: ReactNode[] = [];
-        Array.from(mappedHistory.entries())
-            .sort(([dayA], [dayB]) => dayB - dayA)
-            .forEach(([day, savedTimes]) => {
-                elements.push(
-                    <Stack key={day}>
-                        {renderDaySeparator(new Date(day))}
-                        {savedTimes
-                            .sort((a, b) => b.startTime.getTime() - a.startTime.getTime()) // Make the most recent one first
-                            .map((savedTime) => (
-                                <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
-                            ))}
-                    </Stack>,
-                );
-            });
-        return elements;
+        return props.history.map((day, savedTimes) => {
+            return (
+                <Stack key={day.getTime()}>
+                    {renderDaySeparator(day)}
+                    {savedTimes.map((savedTime) => (
+                        <SavedIssueTime key={savedTime.id} savedTime={savedTime} />
+                    ))}
+                </Stack>
+            );
+        });
     }
 
     return (
