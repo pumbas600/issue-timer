@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { HistoryList } from '../../hooks/useHistoryList';
+import { merge } from '../../styles/Styles';
 import { SavedTime } from '../../types/models/SavedTime';
 import { ClassName } from '../../types/Props';
 import Stack from '../utility/Stack';
@@ -37,8 +38,8 @@ const IssueHistory: FC<Props> = (props) => {
     }
 
     return (
-        <Stack className={props.className}>
-            <h3 className="mb-3 text-blue-500">History</h3>
+        <Stack className={merge(['gap-y-4', props.className])}>
+            <h3 className="text-blue-500">History</h3>
             {renderHistory()}
         </Stack>
     );
