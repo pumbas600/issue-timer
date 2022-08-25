@@ -1,7 +1,8 @@
 import { Octokit } from '@octokit/core';
-import Issue, { IssueIdentifier } from '../types/models/Github';
+import Issue, { IssueIdentifier, Repository } from '../types/models/Github';
 
 const ISSUE_CACHE = new Map<IssueIdentifier, Issue>();
+const REPO_CACHE= new Map<number, Repository>();
 
 async function fetchIssue(issueId: IssueIdentifier, octokit: Octokit): Promise<Issue | null> {
     try {
@@ -55,4 +56,16 @@ async function getAllIssuesOrFetch(octokit: Octokit): Promise<Issue[]> {
     return await fetchAllIssues(octokit);
 }
 
-export { getIssueOrFetch, fetchAllIssues, getAllIssues, getAllIssuesOrFetch };
+async function getAllReposOrFetch(octokit: Octokit): Promise<Repository[]> {
+    if (REPO_CACHE.size === 0) {
+        const issues = await getAllIssuesOrFetch(octokit);
+        issues.forEach(issue => {
+            if (issue.repository)
+                REPO_CACHE.set(issue.repository.id, issue.repository);
+        });
+    }
+    
+    return Array.from(REPO_CACHE.values());
+}
+
+export { getIssueOrFetch, fetchAllIssues, getAllIssues, getAllIssuesOrFetch, getAllReposOrFetch };
