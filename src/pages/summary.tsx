@@ -9,6 +9,7 @@ interface GrouppedIssue {
     repo: Repository;
     issues: (Issue & { isEnabled: boolean })[];
     enabledCount: number;
+    expanded: boolean;
 }
 
 const Summary: FC = () => {
@@ -35,6 +36,7 @@ const Summary: FC = () => {
             repo: issue.repository!,
             issues: [ { ...issue, isEnabled: true } ],
             enabledCount: 0,
+            expanded: false,
         });
     }
 
