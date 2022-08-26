@@ -1,11 +1,8 @@
-import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Checkbox, Container, Grid, GridItem, IconButton, Stack, Text } from '@chakra-ui/react';
 import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { collection } from 'firebase/firestore';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { getAllIssuesOrFetch, getAllReposOrFetch } from '../data/GithubData';
-import { db } from '../firebase/FirebaseApp';
 import { useUserContext } from '../login/UserContext';
 import Issue, { Repository } from '../types/models/Github';
 import { capitalise } from '../utility/Utility';
@@ -16,8 +13,6 @@ interface GrouppedIssue {
     enabledCount: number;
     isExpanded: boolean;
 }
-
-const savedTimesRef = collection(db, 'savedtimes');
 
 const Summary: FC = () => {
     const userContext = useUserContext();
