@@ -5,40 +5,130 @@ import { useUserContext } from "../login/UserContext";
 import Issue, { Repository } from "../types/models/Github";
 import { capitalise } from "../utility/Utility";
 
+interface GrouppedIssue {
+    repo: Repository;
+    issues: (Issue & { isEnabled: boolean })[];
+    enabledCount: number;
+}
+
 const Summary: FC = () => {
 
     const userContext = useUserContext();
     const [issues, setIssues] = useState<Issue[]>([]);
-    const [repos, setRepos] = useState<Repository[]>([]);
-    const [filteredRepos, setFilteredRepos] = useState<boolean[]>([])
+    const [grouppedIssues, setGrouppedIssues] = useState<GrouppedIssue[]>([]);
+    const [filteredIssues, setFilteredIssues] = useState<[][]>([])
 
     useEffect(() => {
         async function fetch() {
             if (userContext.octokit && issues.length === 0) {
-                setIssues(await getAllIssuesOrFetch(userContext.octokit));
-                const repos = await getAllReposOrFetch(userContext.octokit);
-                setRepos(repos);
-                console.log(repos);
-                setFilteredRepos(Array(repos.length).fill(true));
+                const issues = await getAllIssuesOrFetch(userContext.octokit);
+
+                setGrouppedIssues(groupIssuesByRepo(issues));
             }
         }
 
         fetch();
     }, [])
 
-    function toggleRepoFilter(index: number) {
-        setFilteredRepos(filteredRepos => {
-            filteredRepos[index] = !filteredRepos[index];
-            return [...filteredRepos];
+    function createGrouping(issue: Issue): GrouppedIssue {
+        return ({
+            repo: issue.repository!,
+            issues: [ { ...issue, isEnabled: true } ],
+            enabledCount: 0,
+        });
+    }
+
+    function groupIssuesByRepo(issues: Issue[]): GrouppedIssue[] {
+        const grouppedIssues: GrouppedIssue[] = [];
+
+        let currentGrouppedIssue: GrouppedIssue | null = null;
+
+        issues.sort((a, b) => a.repository!.name > b.repository!.name ? 1 : -1);
+        issues.forEach((issue) => {
+            if (!issue.repository)
+                return;
+
+            if (currentGrouppedIssue === null) {
+                currentGrouppedIssue = createGrouping(issue);
+            } else if (currentGrouppedIssue.repo.id !== issue.repository.id) {
+                grouppedIssues.push(currentGrouppedIssue);
+                currentGrouppedIssue = createGrouping(issue);
+            } else {
+                currentGrouppedIssue.issues.push({ ...issue, isEnabled: true });
+                currentGrouppedIssue.enabledCount++;
+            }
+        });
+
+        if (currentGrouppedIssue !== null) {
+            grouppedIssues.push(currentGrouppedIssue);
+        }
+
+        return grouppedIssues;
+    }
+
+    function enableIssue(repoIndex: number, issueIndex: number, isEnabled: boolean) {
+        setGrouppedIssues(grouppedIssues => {
+            const grouping = grouppedIssues[repoIndex];
+            grouping.issues[issueIndex].isEnabled = isEnabled;
+            if (isEnabled) {
+                grouping.enabledCount++;
+            } else {
+                grouping.enabledCount--;
+            }
+
+            return [...grouppedIssues];
         })
     }
 
+    function enableAllIssues(repoIndex: number, isEnabled: boolean) {
+        setGrouppedIssues(grouppedIssues => {
+            const grouping = grouppedIssues[repoIndex];
+
+            grouping.issues.forEach(issue => {
+                issue.isEnabled = isEnabled;
+            });
+
+            if (isEnabled) {
+                grouping.enabledCount = grouping.issues.length;
+            } else {
+                grouping.enabledCount = 0;
+            }
+
+            return [...grouppedIssues];
+        })
+    }
+
+    function generateIssueFilters(grouppedIssue: GrouppedIssue, repoIndex: number): ReactNode {
+        return grouppedIssue.issues.map((issue, issueIndex) => (
+            <Checkbox key={issue.id}
+                isChecked={issue.isEnabled}
+                onChange={(e) => enableIssue(repoIndex, issueIndex, e.target.checked)}
+            >
+                {capitalise(issue.title)}
+            </Checkbox>
+        ));
+    }
+
     function generateRepoFilters(): ReactNode {
-        return repos.map((repo, index) => (
-                <Checkbox key={repo.id} isChecked={filteredRepos[index]} onChange={() => toggleRepoFilter(index)}>
-                    {capitalise(repo.name)}
-                </Checkbox>
-            )
+        return grouppedIssues.map((grouppedIssue, repoIndex) => {
+            const isIndeterminate = grouppedIssue.enabledCount !== grouppedIssue.issues.length && grouppedIssue.enabledCount !== 0;
+
+            return (
+                <div key={grouppedIssue.repo.id}>
+                    <Checkbox
+                        isIndeterminate={isIndeterminate}
+                        isChecked={grouppedIssue.enabledCount !== 0}
+                        onChange={(e) => enableAllIssues(repoIndex, e.target.checked)}
+                    >
+                        <Text fontSize="lg">
+                            {capitalise(grouppedIssue.repo.name)}
+                        </Text>
+                    </Checkbox>
+                    <Stack ml={6}>
+                        {generateIssueFilters(grouppedIssue, repoIndex)}
+                    </Stack>
+                </div>
+            )}
         );
     }
 
@@ -48,7 +138,7 @@ const Summary: FC = () => {
             <Grid templateColumns="repeat(2, 1fr)" gap={6}>
                 <GridItem w="100%">
                     <Stack spacing={2}>
-                        <Text fontSize="xl">Filter Repositories</Text>
+                        <Text fontSize="xl">Filter Issues</Text>
                         {generateRepoFilters()}
                     </Stack>
                 </GridItem>
