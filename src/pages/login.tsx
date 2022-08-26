@@ -20,7 +20,7 @@ const Login: Component = () => {
     const userContext = useUserContext();
 
     useEffect(() => {
-        if (userContext.user && userContext.octokit) {
+        if (userContext.isSignedIn()) {
             const returnUrl = (router.query.returnUrl as string) || '/';
             router.push(returnUrl);
         }

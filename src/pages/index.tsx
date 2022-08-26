@@ -23,8 +23,10 @@ const Home: NextPage = () => {
     const userContext = useUserContext();
 
     useEffect(() => {
-        getAllIssuesOrFetch(userContext.octokit!).then(setIssues);
-        getSavedTimes(userContext.user!.uid, limit(30)).then(history.addAll);
+        if (userContext.isSignedIn()) {
+            getAllIssuesOrFetch(userContext.octokit).then(setIssues);
+            getSavedTimes(userContext.user.uid, limit(30)).then(history.addAll);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

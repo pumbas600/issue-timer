@@ -5,25 +5,25 @@ import { Auth } from '../firebase/FirebaseApp';
 import { canAccessPrivateRepos, clearStoredAccessToken, getStoredAccessToken, setStoredAccessToken } from './UserData';
 import { Octokit } from '@octokit/core';
 
-export interface UserContextProps {
-    user: User | null;
+interface UserContextProps {
+    user?: User;
     loading: boolean;
     error: string;
-    octokit: Octokit | null;
+    octokit?: Octokit;
     logoutUser: () => Promise<void>;
     signInWithGithub: VoidFunction;
+    isSignedIn(): this is Required<UserContextProps>;
 }
 
 const UserContext = createContext<UserContextProps>({
-    user: null,
     loading: false,
     error: '',
-    octokit: null,
     logoutUser: async () => {},
     signInWithGithub: () => {},
+    isSignedIn: () => false,
 });
 
-export const useUserContext = () => useContext(UserContext);
+const useUserContext = () => useContext(UserContext);
 
 function createOctokit(accessToken: string): Octokit {
     return new Octokit({
@@ -31,11 +31,11 @@ function createOctokit(accessToken: string): Octokit {
     });
 }
 
-export const UserContextProvider: Component = (props) => {
-    const [user, setUser] = useState<User | null>(null);
+const UserContextProvider: Component = (props) => {
+    const [user, setUser] = useState<User | undefined>(undefined);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [octokit, setOctokit] = useState<Octokit | null>(null);
+    const [octokit, setOctokit] = useState<Octokit | undefined>(undefined);
 
     useEffect(() => {
         setLoading(true);
@@ -45,7 +45,7 @@ export const UserContextProvider: Component = (props) => {
         }
 
         const unsubscribe = onAuthStateChanged(Auth, (user) => {
-            setUser(user);
+            setUser(user ?? undefined);
             setError('');
             setLoading(false);
         });
@@ -85,6 +85,10 @@ export const UserContextProvider: Component = (props) => {
         return signOut(Auth);
     }
 
+    function isSignedIn(): boolean {
+        return user !== undefined && octokit !== undefined;
+    }
+
     const contextValue: UserContextProps = {
         user,
         loading,
@@ -92,7 +96,11 @@ export const UserContextProvider: Component = (props) => {
         octokit,
         logoutUser,
         signInWithGithub,
+        isSignedIn,
     };
 
     return <UserContext.Provider value={contextValue}>{props.children}</UserContext.Provider>;
 };
+
+export { UserContextProvider, useUserContext };
+export type { UserContextProps };

@@ -20,7 +20,7 @@ const Summary: FC = () => {
 
     useEffect(() => {
         async function fetch() {
-            if (userContext.octokit && grouppedIssues.length === 0) {
+            if (userContext.isSignedIn() && grouppedIssues.length === 0) {
                 const issues = await getAllIssuesOrFetch(userContext.octokit);
 
                 setGrouppedIssues(groupIssuesByRepo(issues));
