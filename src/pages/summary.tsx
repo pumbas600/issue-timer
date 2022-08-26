@@ -1,10 +1,10 @@
-import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { Checkbox, Container, Grid, GridItem, IconButton, Stack, Text } from "@chakra-ui/react";
-import { FC, ReactNode, useEffect, useState } from "react";
-import { getAllIssuesOrFetch, getAllReposOrFetch } from "../data/GithubData";
-import { useUserContext } from "../login/UserContext";
-import Issue, { Repository } from "../types/models/Github";
-import { capitalise } from "../utility/Utility";
+import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Checkbox, Container, Grid, GridItem, IconButton, Stack, Text } from '@chakra-ui/react';
+import { FC, ReactNode, useEffect, useState } from 'react';
+import { getAllIssuesOrFetch, getAllReposOrFetch } from '../data/GithubData';
+import { useUserContext } from '../login/UserContext';
+import Issue, { Repository } from '../types/models/Github';
+import { capitalise } from '../utility/Utility';
 
 interface GrouppedIssue {
     repo: Repository;
@@ -14,15 +14,12 @@ interface GrouppedIssue {
 }
 
 const Summary: FC = () => {
-
     const userContext = useUserContext();
-    const [issues, setIssues] = useState<Issue[]>([]);
     const [grouppedIssues, setGrouppedIssues] = useState<GrouppedIssue[]>([]);
-    const [filteredIssues, setFilteredIssues] = useState<[][]>([])
 
     useEffect(() => {
         async function fetch() {
-            if (userContext.octokit && issues.length === 0) {
+            if (userContext.octokit && grouppedIssues.length === 0) {
                 const issues = await getAllIssuesOrFetch(userContext.octokit);
 
                 setGrouppedIssues(groupIssuesByRepo(issues));
@@ -30,15 +27,15 @@ const Summary: FC = () => {
         }
 
         fetch();
-    }, [])
+    }, []);
 
     function createGrouping(issue: Issue): GrouppedIssue {
-        return ({
+        return {
             repo: issue.repository!,
-            issues: [ { ...issue, isEnabled: true } ],
+            issues: [{ ...issue, isEnabled: true }],
             enabledCount: 1,
             isExpanded: false,
-        });
+        };
     }
 
     function groupIssuesByRepo(issues: Issue[]): GrouppedIssue[] {
@@ -46,10 +43,9 @@ const Summary: FC = () => {
 
         let currentGrouppedIssue: GrouppedIssue | null = null;
 
-        issues.sort((a, b) => a.repository!.name > b.repository!.name ? 1 : -1);
+        issues.sort((a, b) => (a.repository!.name > b.repository!.name ? 1 : -1));
         issues.forEach((issue) => {
-            if (!issue.repository)
-                return;
+            if (!issue.repository) return;
 
             if (currentGrouppedIssue === null) {
                 currentGrouppedIssue = createGrouping(issue);
@@ -70,7 +66,7 @@ const Summary: FC = () => {
     }
 
     function enableIssue(repoIndex: number, issueIndex: number, isEnabled: boolean) {
-        setGrouppedIssues(grouppedIssues => {
+        setGrouppedIssues((grouppedIssues) => {
             const grouping = grouppedIssues[repoIndex];
             grouping.issues[issueIndex].isEnabled = isEnabled;
             if (isEnabled) {
@@ -80,14 +76,14 @@ const Summary: FC = () => {
             }
 
             return [...grouppedIssues];
-        })
+        });
     }
 
     function enableAllIssues(repoIndex: number, isEnabled: boolean) {
-        setGrouppedIssues(grouppedIssues => {
+        setGrouppedIssues((grouppedIssues) => {
             const grouping = grouppedIssues[repoIndex];
 
-            grouping.issues.forEach(issue => {
+            grouping.issues.forEach((issue) => {
                 issue.isEnabled = isEnabled;
             });
 
@@ -102,7 +98,7 @@ const Summary: FC = () => {
     }
 
     function toggleExpandIssueFilters(repoIndex: number) {
-        setGrouppedIssues(grouppedIssues => {
+        setGrouppedIssues((grouppedIssues) => {
             const grouping = grouppedIssues[repoIndex];
             grouping.isExpanded = !grouping.isExpanded;
             return [...grouppedIssues];
@@ -111,7 +107,8 @@ const Summary: FC = () => {
 
     function generateIssueFilters(grouppedIssue: GrouppedIssue, repoIndex: number): ReactNode {
         return grouppedIssue.issues.map((issue, issueIndex) => (
-            <Checkbox key={issue.id}
+            <Checkbox
+                key={issue.id}
                 isChecked={issue.isEnabled}
                 onChange={(e) => enableIssue(repoIndex, issueIndex, e.target.checked)}
             >
@@ -122,7 +119,8 @@ const Summary: FC = () => {
 
     function generateRepoFilters(): ReactNode {
         return grouppedIssues.map((grouppedIssue, repoIndex) => {
-            const isIndeterminate = grouppedIssue.enabledCount !== grouppedIssue.issues.length && grouppedIssue.enabledCount !== 0;
+            const isIndeterminate =
+                grouppedIssue.enabledCount !== grouppedIssue.issues.length && grouppedIssue.enabledCount !== 0;
 
             return (
                 <div key={grouppedIssue.repo.id}>
@@ -132,26 +130,26 @@ const Summary: FC = () => {
                             isChecked={grouppedIssue.enabledCount !== 0}
                             onChange={(e) => enableAllIssues(repoIndex, e.target.checked)}
                         >
-                            <Text fontSize="lg">
-                                {capitalise(grouppedIssue.repo.name)}
-                            </Text>
+                            <Text fontSize="lg">{capitalise(grouppedIssue.repo.name)}</Text>
                         </Checkbox>
-                        <IconButton onClick={() => toggleExpandIssueFilters(repoIndex)}
+                        <IconButton
+                            onClick={() => toggleExpandIssueFilters(repoIndex)}
                             variant="ghost"
                             colorScheme="black"
                             size="sm"
-                            aria-label={grouppedIssue.isExpanded ? "Collapse issues" : "Expand issues"}
+                            aria-label={grouppedIssue.isExpanded ? 'Collapse issues' : 'Expand issues'}
                             icon={grouppedIssue.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
                         />
                     </Stack>
-                    {grouppedIssue.isExpanded && <Stack ml={6}>
-                        {generateIssueFilters(grouppedIssue, repoIndex)}
-                    </Stack>}
+                    {grouppedIssue.isExpanded && (
+                        <Stack ml={6} spacing={0.5}>
+                            {generateIssueFilters(grouppedIssue, repoIndex)}
+                        </Stack>
+                    )}
                 </div>
-            )}
-        );
+            );
+        });
     }
-
 
     return (
         <Container maxW="container.md">
@@ -165,6 +163,6 @@ const Summary: FC = () => {
             </Grid>
         </Container>
     );
-}
+};
 
-export default Summary
+export default Summary;
