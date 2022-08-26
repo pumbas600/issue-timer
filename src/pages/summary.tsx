@@ -1,7 +1,11 @@
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Checkbox, Container, Grid, GridItem, IconButton, Stack, Text } from '@chakra-ui/react';
+import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { collection } from 'firebase/firestore';
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { getAllIssuesOrFetch, getAllReposOrFetch } from '../data/GithubData';
+import { db } from '../firebase/FirebaseApp';
 import { useUserContext } from '../login/UserContext';
 import Issue, { Repository } from '../types/models/Github';
 import { capitalise } from '../utility/Utility';
@@ -12,6 +16,8 @@ interface GrouppedIssue {
     enabledCount: number;
     isExpanded: boolean;
 }
+
+const savedTimesRef = collection(db, 'savedtimes');
 
 const Summary: FC = () => {
     const userContext = useUserContext();
@@ -138,7 +144,13 @@ const Summary: FC = () => {
                             colorScheme="black"
                             size="sm"
                             aria-label={grouppedIssue.isExpanded ? 'Collapse issues' : 'Expand issues'}
-                            icon={grouppedIssue.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                            icon={
+                                grouppedIssue.isExpanded ? (
+                                    <FontAwesomeIcon icon={faChevronDown} size="sm" />
+                                ) : (
+                                    <FontAwesomeIcon icon={faChevronRight} size="sm" />
+                                )
+                            }
                         />
                     </Stack>
                     {grouppedIssue.isExpanded && (
