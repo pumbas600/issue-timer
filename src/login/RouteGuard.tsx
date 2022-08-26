@@ -13,7 +13,7 @@ const RouteGuard: Component = (props) => {
         setAuthorized(false);
         const publicPaths = ['/login'];
         const path = router.asPath.split('?')[0];
-        if ((!userContext.user || !userContext.octokit) && !publicPaths.includes(path)) {
+        if (!userContext.isSignedIn() && !publicPaths.includes(path)) {
             if (!userContext.loading) {
                 router.push({
                     pathname: '/login',

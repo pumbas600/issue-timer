@@ -1,10 +1,13 @@
 import { Checkbox, Container, Grid, GridItem, IconButton, Stack, Text } from '@chakra-ui/react';
 import { faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { limit } from 'firebase/firestore';
 import { FC, ReactNode, useEffect, useState } from 'react';
-import { getAllIssuesOrFetch, getAllReposOrFetch } from '../data/GithubData';
+import { getAllIssuesOrFetch } from '../data/GithubData';
+import { getSavedTimes } from '../data/SavedTimeData';
 import { useUserContext } from '../login/UserContext';
 import Issue, { Repository } from '../types/models/Github';
+import { SavedTime } from '../types/models/SavedTime';
 import { capitalise } from '../utility/Utility';
 
 interface GrouppedIssue {
@@ -17,17 +20,23 @@ interface GrouppedIssue {
 const Summary: FC = () => {
     const userContext = useUserContext();
     const [grouppedIssues, setGrouppedIssues] = useState<GrouppedIssue[]>([]);
+    const [savedTimes, setSavedTimes] = useState<SavedTime[]>([]);
 
     useEffect(() => {
         async function fetch() {
             if (userContext.isSignedIn() && grouppedIssues.length === 0) {
-                const issues = await getAllIssuesOrFetch(userContext.octokit);
+                const [issues, savedTimes] = await Promise.all([
+                    getAllIssuesOrFetch(userContext.octokit),
+                    getSavedTimes(userContext.user.uid, limit(40)),
+                ]);
 
                 setGrouppedIssues(groupIssuesByRepo(issues));
+                setSavedTimes(savedTimes);
             }
         }
 
         fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function createGrouping(issue: Issue): GrouppedIssue {
@@ -166,6 +175,9 @@ const Summary: FC = () => {
                         <Text fontSize="xl">Filter Issues</Text>
                         {generateRepoFilters()}
                     </Stack>
+                </GridItem>
+                <GridItem w="100%">
+                    <Stack spacing={2}></Stack>
                 </GridItem>
             </Grid>
         </Container>
