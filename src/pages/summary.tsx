@@ -1,4 +1,5 @@
-import { Checkbox, Container, Grid, GridItem, Stack, Text } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { Checkbox, Container, Grid, GridItem, IconButton, Stack, Text } from "@chakra-ui/react";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { getAllIssuesOrFetch, getAllReposOrFetch } from "../data/GithubData";
 import { useUserContext } from "../login/UserContext";
@@ -9,7 +10,7 @@ interface GrouppedIssue {
     repo: Repository;
     issues: (Issue & { isEnabled: boolean })[];
     enabledCount: number;
-    expanded: boolean;
+    isExpanded: boolean;
 }
 
 const Summary: FC = () => {
@@ -35,8 +36,8 @@ const Summary: FC = () => {
         return ({
             repo: issue.repository!,
             issues: [ { ...issue, isEnabled: true } ],
-            enabledCount: 0,
-            expanded: false,
+            enabledCount: 1,
+            isExpanded: false,
         });
     }
 
@@ -97,7 +98,15 @@ const Summary: FC = () => {
             }
 
             return [...grouppedIssues];
-        })
+        });
+    }
+
+    function toggleExpandIssueFilters(repoIndex: number) {
+        setGrouppedIssues(grouppedIssues => {
+            const grouping = grouppedIssues[repoIndex];
+            grouping.isExpanded = !grouping.isExpanded;
+            return [...grouppedIssues];
+        });
     }
 
     function generateIssueFilters(grouppedIssue: GrouppedIssue, repoIndex: number): ReactNode {
@@ -117,18 +126,27 @@ const Summary: FC = () => {
 
             return (
                 <div key={grouppedIssue.repo.id}>
-                    <Checkbox
-                        isIndeterminate={isIndeterminate}
-                        isChecked={grouppedIssue.enabledCount !== 0}
-                        onChange={(e) => enableAllIssues(repoIndex, e.target.checked)}
-                    >
-                        <Text fontSize="lg">
-                            {capitalise(grouppedIssue.repo.name)}
-                        </Text>
-                    </Checkbox>
-                    <Stack ml={6}>
-                        {generateIssueFilters(grouppedIssue, repoIndex)}
+                    <Stack direction="row" alignItems="center" spacing={0}>
+                        <Checkbox
+                            isIndeterminate={isIndeterminate}
+                            isChecked={grouppedIssue.enabledCount !== 0}
+                            onChange={(e) => enableAllIssues(repoIndex, e.target.checked)}
+                        >
+                            <Text fontSize="lg">
+                                {capitalise(grouppedIssue.repo.name)}
+                            </Text>
+                        </Checkbox>
+                        <IconButton onClick={() => toggleExpandIssueFilters(repoIndex)}
+                            variant="ghost"
+                            colorScheme="black"
+                            size="sm"
+                            aria-label={grouppedIssue.isExpanded ? "Collapse issues" : "Expand issues"}
+                            icon={grouppedIssue.isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                        />
                     </Stack>
+                    {grouppedIssue.isExpanded && <Stack ml={6}>
+                        {generateIssueFilters(grouppedIssue, repoIndex)}
+                    </Stack>}
                 </div>
             )}
         );
